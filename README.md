@@ -2,4 +2,4 @@
 
 This is a simple readme file
 ## This is a heading
-## This is bound to cause trouble !
+## Just something going on
