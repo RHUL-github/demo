@@ -1627,7 +1627,7 @@ CryptIsUniqueSizeValid(
                 break;
         }
 	    break;
-#endif //TPM_ALG_SPHINCS_PLUS
+#endif //TPM_ALG_DILITHIUM
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 		  switch (publicArea->parameters.sphincsplusDetail.mode) {
