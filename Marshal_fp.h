@@ -442,7 +442,7 @@ extern "C" {
 	UINT32
 		TPMT_SPHINCS_PLUS_SCHEME_Marshal(TPMT_SPHINCS_PLUS_SCHEME* source, BYTE** buffer, UINT32* size);
 	UINT32
-		TPMI_ALG_DILITHIUM_SCHEME_Marshal(TPMI_ALG_SPHINCS_PLUS_SCHEME* source, BYTE** buffer, UINT32* size);
+		TPMI_ALG_SPHINCS_PLUS_SCHEME_Marshal(TPMI_ALG_SPHINCS_PLUS_SCHEME* source, BYTE** buffer, UINT32* size);
 	/*****************************************************************************/
 	/*                             Sphincs+ Mods                                 */
 	/*****************************************************************************/
