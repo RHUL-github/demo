@@ -244,7 +244,7 @@ CryptSphincsPlusSign(
     }
 
     sphincsplus_polyveck_csubq(&ct0, params.k);
-    if(sphincsplus_polyveck_chknorm(&ct0, SPHINCS_PLUSGAMMA2, params.k))
+    if(sphincsplus_polyveck_chknorm(&ct0, SPHINCS_PLUS_GAMMA2, params.k))
       goto rej;
 
     sphincsplus_polyveck_add(&w0, &w0, &ct0, params.k);
@@ -293,8 +293,8 @@ CryptSphincsPlusValidateSignature(
 	}
 
     TEST(sig->sigAlg);
-    if (sig->signature.sphincsplus.mode >= TPM_SPHINCS_PLUS__MODE_1 &&
-            sig->signature.sphincsplus.mode <= TPM_SPHINCS_PLUS__MODE_4) {
+    if (sig->signature.sphincsplus.mode >= TPM_SPHINCS_PLUS_MODE_1 &&
+            sig->signature.sphincsplus.mode <= TPM_SPHINCS_PLUS_MODE_4) {
         params = generate_sphincsplus_params(sig->signature.sphincsplus.mode);
     } else {
         return TPM_RC_SUCCESS + 2;
@@ -309,7 +309,7 @@ CryptSphincsPlusValidateSignature(
     if(sphincsplus_unpack_sig(&z, &h, &c, sig->signature.sphincsplus.sig.b.buffer, params.k, params.l, params.polz_size_packed, params.omega)) {
       goto badsig;
     }
-    if(sphincsplus_polyvecl_chknorm(&z, SPHINCS_PLUS__GAMMA1 - params.beta, params.l)) {
+    if(sphincsplus_polyvecl_chknorm(&z, SPHINCS_PLUS_GAMMA1 - params.beta, params.l)) {
       goto badsig;
     }
 
@@ -320,7 +320,7 @@ CryptSphincsPlusValidateSignature(
 
     CryptHashBlock(TPM_ALG_SHAKE256,
             params.crypto_publickeybytes, key->publicArea.unique.sphincsplus.b.buffer,
-            SPHINCS_PLUS__CRHBYTES, message_tmp.t.buffer + params.crypto_bytes - SPHINCS_PLUS__CRHBYTES);
+            SPHINCS_PLUS_CRHBYTES, message_tmp.t.buffer + params.crypto_bytes - SPHINCS_PLUS_CRHBYTES);
     CryptHashBlock(TPM_ALG_SHAKE256,
             SPHINCS_PLUS_CRHBYTES + message_tmp.b.size, message_tmp.b.buffer + params.crypto_bytes - sphincsplus_CRHBYTES,
             SPHINCS_PLUS_CRHBYTES, mu);
@@ -397,7 +397,7 @@ CryptSphincsPlusGenerateKey(
     if (!IS_ATTRIBUTE(publicArea->objectAttributes, TPMA_OBJECT, sign))
         ERROR_RETURN(TPM_RC_NO_RESULT);
 
-    if (publicArea->parameters.sphincsplusDetails.mode >= TPM_SPHINCS_PLUS__MODE_1 &&
+    if (publicArea->parameters.sphincsplusDetails.mode >= TPM_SPHINCS_PLUS_MODE_1 &&
             publicArea->parameters.sphincsplusDetails.mode <= TPM_SPHINCS_PLUS_MODE_4) {
         params = generate_sphincsplus_params(publicArea->parameters.sphincsplusDetail.mode);
     } else {
