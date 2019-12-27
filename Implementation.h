@@ -532,13 +532,6 @@ typedef  UINT8             TPM_LDAA_SECURITY_MODE;
 #if         ALG_SPHINCS_PLUS
 #define TPM_ALG_SPHINCS_PLUS               (TPM_ALG_ID)(ALG_SPHINCS_PLUS_VALUE)
 #endif   // ALG_SPHINCS_PLUS
-
-typedef  UINT8             TPM_SPHINCS_PLUS_MODE;
-#define  TPM_SPHINCS_PLUS_MODE_NONE (TPM_SPHINCS_PLUS_MODE)(0x00)
-#define  TPM_SPHINCS_PLUS_MODE_1    (TPM_SPHINCS_PLUS_MODE)(0x01)
-#define  TPM_SPHINCS_PLUS_MODE_2    (TPM_SPHINCS_PLUS_MODE)(0x02)
-#define  TPM_SPHINCS_PLUS_MODE_3    (TPM_SPHINCS_PLUS_MODE)(0x03)
-#define  TPM_SPHINCS_PLUS_MODE_4    (TPM_SPHINCS_PLUS_MODE)(0x04)
 /*****************************************************************************/
 /*                             SPHINCS+ Mods                                */
 /*****************************************************************************/
