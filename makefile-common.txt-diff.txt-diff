@@ -1,0 +1,25 @@
+93,95c93,96
+< 	CryptDilithium_fp.h \
+< 	CryptKyber_fp.h \
+< 	CryptLDaa_fp.h \
+---
+> 	CryptDilithium_fp.h 		\
+> 	CryptSphincsPlus_fp.h 		\
+> 	CryptKyber_fp.h 		\
+> 	CryptLDaa_fp.h 			\
+292a294,301
+> 	sphincsplus-params.h \
+> 	sphincsplus-hash.h \
+> 	sphincsplus-hash_address.h \
+> 	sphincsplus-rng.h \
+> 	sphincsplus-wots.h \
+> 	sphincsplus-utils.h \
+> 	sphincsplus-fors.h \
+> 	sphincsplus-api.h \
+333a343,348
+> 	sphincsplus-hash_address.o \
+> 	sphincsplus-rng.o \
+> 	sphincsplus-wots.o \
+> 	sphincsplus-utils.o \
+> 	sphincsplus-fors.o \
+> 	sphincsplus-sign.o \

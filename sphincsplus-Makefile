@@ -1,0 +1,68 @@
+CC = /usr/bin/gcc
+CFLAGS = -Wall -Wextra -Wpedantic -O3
+LDLIBS += -lcrypto
+# Renamed hash_sha256.c to sphincsplus-hash_sha256.c
+HASH_C = sphincsplus-hash_sha256.c
+
+# Renamed hash_address.c to sphincsplus-hash_address.c
+# Renamed rng.c to sphincsplus-rng.c
+# Renamed wots.c to sphincsplus-wots.c
+# Renamed utils.c to sphincsplus-utils.c
+# Renamed fors.c to sphincsplus-fors.c
+# Renamed sign.c to sphincsplus-sign.c
+SOURCES =          $(HASH_C) sphincsplus-hash_address.c sphincsplus-rng.c sphincsplus-wots.c sphincsplus-utils.c sphincsplus-fors.c sphincsplus-sign.c
+# Renamed params.h to sphincsplus-params.h
+# Renamed hash.h to sphincsplus-hash.h
+# Renamed hash_address.h to sphincsplus-hash_address.h
+# Renamed rng.h to sphincsplus-rng.h
+# Renamed wots.h to sphincsplus-wots.h
+# Renamed utils.h to sphincsplus-utils.h
+# Renamed fors.h to sphincsplus-fors.h
+# Renamed api.h to sphincsplus-api.h
+HEADERS = sphincsplus-params.h sphincsplus-hash.h    sphincsplus-hash_address.h sphincsplus-rng.h sphincsplus-wots.h sphincsplus-utils.h sphincsplus-fors.h sphincsplus-api.h
+
+# Remove references to SHAKE256 and Haraka
+# ifeq ($(HASH_C),hash_shake256.c)
+# 	SOURCES += fips202.c
+# 	HEADERS += fips202.h
+# endif
+# ifeq ($(HASH_C),hash_haraka.c)
+#	SOURCES += haraka.c
+#	HEADERS += haraka.h
+# endif
+
+DET_SOURCES = $(SOURCES:rng.%=rng.%)
+DET_HEADERS = $(HEADERS:rng.%=rng.%)
+
+TESTS = test/wots \
+		test/fors \
+		test/spx \
+
+.PHONY: clean test
+
+# Renamed PQCgenKAT_sign to sphincsplus-PQCgenKAT_sign
+default: sphincsplus-PQCgenKAT_sign
+
+all: sphincsplus-PQCgenKAT_sign tests
+
+tests: $(TESTS)
+
+test: $(TESTS:=.exec)
+
+# Renamed PQCgenKAT_sign.c to sphincsplus-PQCgenKAT_sign.c
+sphincsplus-PQCgenKAT_sign: sphincsplus-PQCgenKAT_sign.c $(DET_SOURCES) $(DET_HEADERS)
+	$(CC) $(CFLAGS) -o $@ $(DET_SOURCES) $< $(LDLIBS)
+
+test/%: test/%.c $(SOURCES) $(HEADERS)
+	$(CC) $(CFLAGS) -o $@ $(SOURCES) $< $(LDLIBS)
+
+test/%.exec: test/%
+	@$<
+
+# Renamed PQCgenKAT_signKAT_*.rsp to sphincsplus-PQCgenKAT_signKAT_*.rsp
+# Renamed PQCgenKAT_signKAT_*.req to sphincsplus-PQCgenKAT_signKAT_*.req
+clean:
+	-$(RM) $(TESTS)
+	-$(RM) sphincsplus-PQCgenKAT_sign
+	-$(RM) sphincsplus-PQCsignKAT_*.rsp
+	-$(RM) sphincsplus-PQCsignKAT_*.req

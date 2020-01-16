@@ -90,10 +90,10 @@ HEADERS = 				\
 	CryptHash.h			\
 	CryptHashData.h			\
 	CryptHash_fp.h			\
-	CryptDilithium_fp.h \
-	CryptSphincsPlus_fp.h \
-	CryptKyber_fp.h \
-	CryptLDaa_fp.h \
+	CryptDilithium_fp.h 		\
+	CryptSphincsPlus_fp.h 		\
+	CryptKyber_fp.h 		\
+	CryptLDaa_fp.h 			\
 	CryptPrimeSieve_fp.h		\
 	CryptPrime_fp.h			\
 	CryptRand.h			\
@@ -291,14 +291,14 @@ HEADERS = 				\
 	dilithium-reduce.h \
 	dilithium-rounding.h \
 	dilithium-sign.h \
-	sphincsplus-ntt.h \
-	sphincsplus-packing.h \
 	sphincsplus-params.h \
-	sphincsplus-poly.h \
-	sphincsplus-polyvec.h \
-	sphincsplus-reduce.h \
-	sphincsplus-rounding.h \
-	sphincsplus-sign.h \
+	sphincsplus-hash.h \
+	sphincsplus-hash_address.h \
+	sphincsplus-rng.h \
+	sphincsplus-wots.h \
+	sphincsplus-utils.h \
+	sphincsplus-fors.h \
+	sphincsplus-api.h \
 	ldaa-polynomial-matrix.h \
 	ldaa-polynomial.h \
 	ldaa-sample-z.h \
@@ -340,12 +340,11 @@ OBJFILES = \
 	dilithium-reduce.o \
 	dilithium-rounding.o \
 	dilithium-sign.o \
-	sphincsplus-ntt.o \
-	sphincsplus-packing.o \
-	sphincsplus-poly.o \
-	sphincsplus-polyvec.o \
-	sphincsplus-reduce.o \
-	sphincsplus-rounding.o \
+	sphincsplus-hash_address.o \
+	sphincsplus-rng.o \
+	sphincsplus-wots.o \
+	sphincsplus-utils.o \
+	sphincsplus-fors.o \
 	sphincsplus-sign.o \
 	CryptKyber.o \
 	kyber-poly.o \

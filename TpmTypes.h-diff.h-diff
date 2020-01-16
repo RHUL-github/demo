@@ -1,0 +1,115 @@
+1282c1282,1324
+< 
+---
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                */
+> /*****************************************************************************/
+> #define MAX_SPHINCS_PLUS_PUBLIC_KEY_SIZE 1760
+> #define MAX_SPHINCS_PLUS_SECRET_KEY_SIZE 3856
+> #define MAX_SPHINCS_PLUS_DIGEST_SIZE 64 // I think this is a safe digest value even after a SHA3 implementation is added
+> #define MAX_SPHINCS_PLUS_CRYPTO_BYTES 3366
+> #define MAX_SPHINCS_PLUS_SIGNED_MESSAGE_SIZE MAX_SPHINCS_PLUS_DIGEST_SIZE+MAX_SPHINCS_PLUS_CRYPTO_BYTES
+> #define MAX_SPHINCS_PLUS_MESSAGE_SIZE MAX_SPHINCS_PLUS_DIGEST_SIZE+MAX_SPHINCS_PLUS_CRYPTO_BYTES
+> typedef union {
+> 	struct {
+> 		UINT32                  size;
+> 		BYTE                    buffer[MAX_SPHINCS_PLUS_PUBLIC_KEY_SIZE];
+> 	}            t;
+> 	TPM2B        b;
+> } TPM2B_SPHINCS_PLUS_PUBLIC_KEY;
+> 
+> typedef union {
+> 	struct {
+> 		UINT32                  size;
+> 		BYTE                    buffer[MAX_SPHINCS_PLUS_SECRET_KEY_SIZE];
+> 	}            t;
+> 	TPM2B        b;
+> } TPM2B_SPHINCS_PLUS_SECRET_KEY;
+> 
+> typedef union {
+> 	struct {
+> 		UINT32                  size;
+> 		BYTE                    buffer[MAX_SPHINCS_PLUS_SIGNED_MESSAGE_SIZE];
+> 	}            t;
+> 	TPM2B        b;
+> } TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE;
+> 
+> typedef union {
+> 	struct {
+> 		UINT32                  size;
+> 		BYTE                    buffer[MAX_SPHINCS_PLUS_MESSAGE_SIZE];
+> 	}            t;
+> 	TPM2B        b;
+> } TPM2B_SPHINCS_PLUS_MESSAGE;
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                */
+> /*****************************************************************************/
+1712a1755,1762
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                */
+> /*****************************************************************************/
+> typedef  TPMS_SCHEME_HASH     TPMS_SIG_SCHEME_SPHINCS_PLUS;
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                */
+> /*****************************************************************************/
+> 
+1724a1775,1777
+> #if 	ALG_SPHINCS_PLUS
+> 	TPMS_SIG_SCHEME_SPHINCS_PLUS    sphincsplus;
+> #endif   // ALG_SPHINCS_PLUS
+1794a1848,1850
+> #if 	ALG_SPHINCS_PLUS
+> 	TPMS_SIG_SCHEME_SPHINCS_PLUS    sphincsplus;
+> #endif   // ALG_SPHINCS_PLUS
+1867a1924,1934
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                */
+> /*****************************************************************************/
+> typedef  TPM_ALG_ID         TPMI_ALG_SPHINCS_PLUS_SCHEME;
+> typedef struct {
+> 	TPMI_ALG_SPHINCS_PLUS_SCHEME scheme;
+> 	TPMU_ASYM_SCHEME          details;
+> } TPMT_SPHINCS_PLUS_SCHEME;
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                */
+> /*****************************************************************************/
+1953a2021,2031
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                */
+> /*****************************************************************************/
+> typedef struct {
+> 	TPMI_ALG_HASH                  hash;
+> 	TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE sig;
+> 	BYTE                           mode;
+> } TPMS_SIGNATURE_SPHINCS_PLUS;
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                */
+> /*****************************************************************************/
+1978a2057,2059
+> #if 	ALG_SPHINCS_PLUS
+> 	TPMS_SIGNATURE_SPHINCS_PLUS    sphincsplus;
+> #endif   // ALG_SPHINCS_PLUS
+2048a2130,2132
+> #if 	ALG_SPHINCS_PLUS
+> 	TPM2B_SPHINCS_PLUS_PUBLIC_KEY sphincsplus;
+> #endif   // ALG_SPHINCS_PLUS
+2119a2204,2214
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                */
+> /*****************************************************************************/
+> typedef struct {
+> 	TPMT_SYM_DEF_OBJECT   symmetric;
+> 	TPMT_SPHINCS_PLUS_SCHEME scheme;
+> 	BYTE                  mode;
+> } TPMS_SPHINCS_PLUS_PARMS;
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                */
+> /*****************************************************************************/
+2140a2236,2238
+> #if 	ALG_SPHINCS_PLUS
+> 	TPMS_SPHINCS_PLUS_PARMS    sphincsplusDetail;
+> #endif   // ALG_SPHINCS_PLUS
+2188a2287,2289
+> #if 	ALG_SPHINCS_PLUS
+> 	TPM2B_SPHINCS_PLUS_SECRET_KEY      sphincsplus;
+> #endif   // ALG_SPHINCS_PLUS
