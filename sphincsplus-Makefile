@@ -59,6 +59,7 @@ test/%: test/%.c $(SOURCES) $(HEADERS)
 test/%.exec: test/%
 	@$<
 
+# Renamed PQCgenKAT_sign to sphincsplus-PQCgenKAT_sign
 # Renamed PQCgenKAT_signKAT_*.rsp to sphincsplus-PQCgenKAT_signKAT_*.rsp
 # Renamed PQCgenKAT_signKAT_*.req to sphincsplus-PQCgenKAT_signKAT_*.req
 clean:

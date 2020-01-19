@@ -43,12 +43,14 @@ main()
     int                 ret_val;
     
     // Create the REQUEST file
-    sprintf(fn_req, "PQCsignKAT_%d.req", CRYPTO_SECRETKEYBYTES);
+	/* Renamed PQCsignKAT_%d.req to sphincsplus-PQCsignKAT_%d.req */
+    sprintf(fn_req, "sphincsplus-PQCsignKAT_%d.req", CRYPTO_SECRETKEYBYTES);
     if ( (fp_req = fopen(fn_req, "w")) == NULL ) {
         printf("Couldn't open <%s> for write\n", fn_req);
         return KAT_FILE_OPEN_ERROR;
     }
-    sprintf(fn_rsp, "PQCsignKAT_%d.rsp", CRYPTO_SECRETKEYBYTES);
+	/* Renamed PQCsignKAT_%d.rsp to sphincsplus-PQCsignKAT_%d.rsp */
+    sprintf(fn_rsp, "sphincsplus-PQCsignKAT_%d.rsp", CRYPTO_SECRETKEYBYTES);
     if ( (fp_rsp = fopen(fn_rsp, "w")) == NULL ) {
         printf("Couldn't open <%s> for write\n", fn_rsp);
         return KAT_FILE_OPEN_ERROR;
