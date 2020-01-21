@@ -65,13 +65,19 @@ main()
         randombytes(seed, 48);
         fprintBstr(fp_req, "seed = ", seed, 48);
         mlen = 33*(i+1);
-        fprintf(fp_req, "mlen = %llu\n", mlen);
+		/* Renamed "mlen" to "message length" */
+        fprintf(fp_req, "message length = %llu\n", mlen);
         randombytes(msg, mlen);
-        fprintBstr(fp_req, "msg = ", msg, mlen);
-        fprintf(fp_req, "pk =\n");
-        fprintf(fp_req, "sk =\n");
-        fprintf(fp_req, "smlen =\n");
-        fprintf(fp_req, "sm =\n\n");
+		/* Renamed "msg" to "message" */
+        fprintBstr(fp_req, "message = ", msg, mlen);
+		/* Renamed "pk" to "public key" */
+        fprintf(fp_req, "public key =\n");
+		/* Renamed "sk" to "secret key" */
+        fprintf(fp_req, "secret key =\n");
+		/* Renamed "smlen" to "signature length" */
+        fprintf(fp_req, "signature length =\n");
+		/* Renamed "sm" to "signature" */
+        fprintf(fp_req, "signature =\n\n");
     }
     fclose(fp_req);
     
@@ -100,38 +106,47 @@ main()
         
         randombytes_init(seed, NULL, 256);
         
-        if ( FindMarker(fp_req, "mlen = ") )
+		/* Renamed "mlen" to "message length" */
+        if ( FindMarker(fp_req, "message length = ") )
             fscanf(fp_req, "%llu", &mlen);
         else {
-            printf("ERROR: unable to read 'mlen' from <%s>\n", fn_req);
+            printf("ERROR: unable to read 'message length' from <%s>\n", fn_req);
             return KAT_DATA_ERROR;
         }
-        fprintf(fp_rsp, "mlen = %llu\n", mlen);
+		/* Renamed "mlen" to "message length" */
+        fprintf(fp_rsp, "message length = %llu\n", mlen);
         
         m = (unsigned char *)calloc(mlen, sizeof(unsigned char));
         m1 = (unsigned char *)calloc(mlen+CRYPTO_BYTES, sizeof(unsigned char));
         sm = (unsigned char *)calloc(mlen+CRYPTO_BYTES, sizeof(unsigned char));
         
-        if ( !ReadHex(fp_req, m, (int)mlen, "msg = ") ) {
-            printf("ERROR: unable to read 'msg' from <%s>\n", fn_req);
+		/* Renamed "msg" to "message" */
+        if ( !ReadHex(fp_req, m, (int)mlen, "message = ") ) {
+			/* Renamed 'msg' to 'message' */
+            printf("ERROR: unable to read 'message' from <%s>\n", fn_req);
             return KAT_DATA_ERROR;
         }
-        fprintBstr(fp_rsp, "msg = ", m, mlen);
+		/* Renamed "msg" to "message" */
+        fprintBstr(fp_rsp, "message = ", m, mlen);
         
         // Generate the public/private keypair
         if ( (ret_val = crypto_sign_keypair(pk, sk)) != 0) {
             printf("crypto_sign_keypair returned <%d>\n", ret_val);
             return KAT_CRYPTO_FAILURE;
         }
-        fprintBstr(fp_rsp, "pk = ", pk, CRYPTO_PUBLICKEYBYTES);
-        fprintBstr(fp_rsp, "sk = ", sk, CRYPTO_SECRETKEYBYTES);
+		/* Renamed "pk" to "public key" */
+        fprintBstr(fp_rsp, "public key = ", pk, CRYPTO_PUBLICKEYBYTES);
+		/* Renamed "sk" to "secret key" */
+        fprintBstr(fp_rsp, "secret key = ", sk, CRYPTO_SECRETKEYBYTES);
         
         if ( (ret_val = crypto_sign(sm, &smlen, m, mlen, sk)) != 0) {
             printf("crypto_sign returned <%d>\n", ret_val);
             return KAT_CRYPTO_FAILURE;
         }
-        fprintf(fp_rsp, "smlen = %llu\n", smlen);
-        fprintBstr(fp_rsp, "sm = ", sm, smlen);
+		/* Renamed "smlen" to "signature length" */
+        fprintf(fp_rsp, "signature length = %llu\n", smlen);
+		/* Renamed "sm" to "signature" */
+        fprintBstr(fp_rsp, "signature = ", sm, smlen);
         fprintf(fp_rsp, "\n");
         
         if ( (ret_val = crypto_sign_open(m1, &mlen1, sm, smlen, pk)) != 0) {
@@ -140,12 +155,14 @@ main()
         }
         
         if ( mlen != mlen1 ) {
-            printf("crypto_sign_open returned bad 'mlen': Got <%llu>, expected <%llu>\n", mlen1, mlen);
+			/* Renamed 'mlen' to 'message length' */
+            printf("crypto_sign_open returned bad 'message length': Got <%llu>, expected <%llu>\n", mlen1, mlen);
             return KAT_CRYPTO_FAILURE;
         }
         
         if ( memcmp(m, m1, mlen) ) {
-            printf("crypto_sign_open returned bad 'm' value\n");
+			/* Renamed 'm' to 'message' */
+            printf("crypto_sign_open returned bad 'message' value\n");
             return KAT_CRYPTO_FAILURE;
         }
         
