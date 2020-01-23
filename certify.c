@@ -173,7 +173,7 @@ int main(int argc, char *argv[])
 		    useRsa = 2;
 		}
 		else if (strcmp(argv[i], "sphincsplus") == 0) {
-			useRsa = 2;
+			useRsa = 3;
 		}
 		else {
 		    printf("Bad parameter %s for -salg\n", argv[i]);
@@ -317,7 +317,7 @@ int main(int argc, char *argv[])
 	    in.inScheme.scheme = TPM_ALG_DILITHIUM;
 	    in.inScheme.details.dilithium.hashAlg = halg;
     }
-	else if (useRsa == 2) {
+	else if (useRsa == 3) {
 		in.inScheme.scheme = TPM_ALG_SPHINCS_PLUS;
 		in.inScheme.details.sphincsplus.hashAlg = halg;
 	}
