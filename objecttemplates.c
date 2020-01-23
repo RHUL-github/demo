@@ -62,7 +62,7 @@
    TYPE_DEN:  decryption key (not storage key, RSA NULL scheme, EC NULL scheme, Kyber)
    TYPE_DEO:  decryption key (not storage key, RSA OAEP scheme, EC NULL scheme, Kyber)
    TYPE_SI:   signing key (unrestricted, RSA NULL schemem EC NULL scheme, Dilithium NULL scheme, Kyber NULL scheme, SphincsPlus NULL scheme)
-   TYPE_SIR:  signing key (restricted, RSA RSASSA scheme, EC ECDSA scheme, Dilithium mode=2 scheme, Kyber k=3 scheme, SphincsPlus mode=2 scheme)
+   TYPE_SIR:  signing key (restricted, RSA RSASSA scheme, EC ECDSA scheme, Dilithium mode=2 scheme, Kyber k=3 scheme)
    TYPE_GP:   general purpose key
    TYPE_DAA:  signing key (unrestricted, ECDAA, LDAA)
    TYPE_DAAR: signing key (restricted, ECDAA, LDAA)
@@ -79,7 +79,6 @@ TPM_RC asymPublicTemplate(TPMT_PUBLIC *publicArea,	/* output */
 			  TPMI_ALG_HASH halg,		/* hash algorithm */
 			  const char *policyFilename,	/* binary policy, NULL means empty */
               TPMI_DILITHIUM_MODE dilithium_mode, // Dilithium mode to be used
-			  TPMI_SPHINCS_PLUS_MODE sphincsplus_mode, // Sphincsplus mode to be used
               TPMI_KYBER_SECURITY kyber_k, // Kyber security profile
               TPM2B_LDAA_ISSUER_AT *ldaa_issuer_at, // LDAA Polynomial matrix given by the issuer to the TPM
               TPMI_LDAA_SECURITY_MODE ldaa_mode) {
@@ -297,33 +296,11 @@ TPM_RC asymPublicTemplate(TPMT_PUBLIC *publicArea,	/* output */
 		case TYPE_SIR:
 			publicArea->parameters.sphincsplusDetail.scheme.scheme = TPM_ALG_SPHINCS_PLUS;
 			publicArea->parameters.sphincsplusDetail.scheme.details.sphincsplus.hashAlg = halg;
-			publicArea->parameters.sphincsplusDetail.mode = sphincsplus_mode;
 			break;
 		case TYPE_SI:
 			publicArea->parameters.sphincsplusDetail.scheme.scheme = TPM_ALG_NULL;
 			//publicArea->parameters.sphincsplusDetail.scheme.details.anySig.hashAlg = 0;
-			publicArea->parameters.sphincsplusDetail.mode = TPM_SPHINCS_PLUS_MODE_3;
 		}
-} else if (algPublic == TPM_ALG_SPHINCS_PLUS) { /* algPublic == TPM_ALG_SPHINCS_PLUS */
-            switch (keyType) {
-              case TYPE_SI:
-              case TYPE_SIR:
-                /* Non-storage keys must have TPM_ALG_NULL for the symmetric algorithm */
-                publicArea->parameters.sphincsplusDetail.symmetric.algorithm = TPM_ALG_NULL;
-                break;
-            }
-
-            switch (keyType) {
-              case TYPE_SIR:
-                publicArea->parameters.sphincsplusDetail.scheme.scheme = TPM_ALG_SPHINCS_PLUS;
-                publicArea->parameters.sphincsplusDetail.scheme.details.sphincsplus.hashAlg = halg;
-                publicArea->parameters.sphincsplusDetail.mode = sphincsplus_mode;
-                break;
-              case TYPE_SI:
-                publicArea->parameters.sphincsplusDetail.scheme.scheme = TPM_ALG_NULL;
-                //publicArea->parameters.sphincsplusDetail.scheme.details.anySig.hashAlg = 0;
-                publicArea->parameters.sphincsplusDetail.mode = TPM_SPHINCS_PLUS_MODE_3;
-            }
 #ifdef TPM_ALG_NEW_HOPE
         } else if (algPublic == TPM_ALG_NEWHOPE) {
             publicArea->parameters.newhopeDetail.scheme.scheme = TPM_ALG_NULL;
@@ -385,7 +362,7 @@ TPM_RC asymPublicTemplate(TPMT_PUBLIC *publicArea,	/* output */
               case TYPE_DEN:
               case TYPE_DEO:
                 publicArea->parameters.kyberDetail.scheme.scheme = TPM_ALG_NULL;
-                publicArea->parameters.kyberDetail.scheme.details.dilithium.hashAlg = halg;
+                publicArea->parameters.kyberDetail.scheme.details.kyber.hashAlg = halg;
                 publicArea->parameters.kyberDetail.security = kyber_k;
                 break;
               case TYPE_ST:
