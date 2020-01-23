@@ -1630,24 +1630,8 @@ CryptIsUniqueSizeValid(
 #endif //TPM_ALG_DILITHIUM
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
-		  switch (publicArea->parameters.sphincsplusDetail.mode) {
-		  case TPM_SPHINCS_PLUS_MODE_1:
-			  consistent = publicArea->unique.sphincsplus.t.size == 896;
-			  break;
-		  case TPM_SPHINCS_PLUS_MODE_2:
-			  consistent = publicArea->unique.sphincsplus.t.size == 1184;
-			  break;
-		  case TPM_SPHINCS_PLUS_MODE_3:
-			  consistent = publicArea->unique.sphincsplus.t.size == 1472;
-			  break;
-		  case TPM_SPHINCS_PLUS_MODE_4:
 			  consistent = publicArea->unique.sphincsplus.t.size == 1760;
-			  break;
-		  default:
-			  consistent = FALSE;
-			  break;
-		  }
-		  break;
+		break;
 #endif //TPM_ALG_SPHINCS_PLUS
 	  default:
 	    // For SYMCIPHER and KEYDEDHASH objects, the unique field is the size
@@ -1728,24 +1712,9 @@ CryptIsSensitiveSizeValid(
 #endif //TPM_ALG_DILITHIUM
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
-		  switch (publicArea->parameters.sphincsplusDetail.mode) {
-		  case TPM_SPHINCS_PLUS_MODE_1:
-			  consistent = sensitiveArea->sensitive.sphincsplus.t.size == 2096;
-			  break;
-		  case TPM_SPHINCS_PLUS_MODE_2:
-			  consistent = sensitiveArea->sensitive.sphincsplus.t.size == 2800;
-			  break;
-		  case TPM_SPHINCS_PLUS_MODE_3:
-			  consistent = sensitiveArea->sensitive.sphincsplus.t.size == 3504;
-			  break;
-		  case TPM_SPHINCS_PLUS_MODE_4:
 			  consistent = sensitiveArea->sensitive.sphincsplus.t.size == 3856;
-			  break;
-		  default:
-			  consistent = FALSE;
-			  break;
-		  }
-		  break;
+		}
+		break;
 #endif //TPM_ALG_SPHINCS_PLUS
 	  case TPM_ALG_SYMCIPHER:
 	    keySizeInBytes = BITS_TO_BYTES(
@@ -1976,49 +1945,22 @@ CryptValidateKeys(
 #endif
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
-		  switch (publicArea->parameters.sphincsplusDetail.mode) {
-		  case TPM_SPHINCS_PLUS_MODE_1:
-			  if (publicArea->unique.sphincsplus.t.size != 896)
-				  return TPM_RC_KEY + blamePublic;
-			  break;
-		  case TPM_SPHINCS_PLUS_MODE_2:
-			  if (publicArea->unique.sphincsplus.t.size != 1184)
-				  return TPM_RC_KEY + blamePublic;
-			  break;
-		  case TPM_SPHINCS_PLUS_MODE_3:
-			  if (publicArea->unique.sphincsplus.t.size != 1472)
-				  return TPM_RC_KEY + blamePublic;
-			  break;
-		  case TPM_SPHINCS_PLUS_MODE_4:
-			  if (publicArea->unique.sphincsplus.t.size != 1760)
-				  return TPM_RC_KEY + blamePublic;
-			  break;
-		  default:
-			  return TPM_RCS_VALUE + blamePublic;
+		  if (publicArea->unique.sphincsplus.t.size != 1760) {
+			  return TPM_RC_KEY + blamePublic;
+		  }
+		  else {
+			  return TPM_RCS_VALUE + blamePublic; 
 		  }
 
 		  if (sensitive != NULL) {
-			  switch (publicArea->parameters.sphincsplusDetail.mode) {
-			  case TPM_SPHINCS_PLUS_MODE_1:
-				  if (sensitive->sensitive.sphincsplus.t.size != 2096)
+				  if (sensitive->sensitive.sphincsplus.t.size == 3856) {
 					  return TPM_RCS_SIZE + blameSensitive;
-				  break;
-			  case TPM_SPHINCS_PLUS_MODE_2:
-				  if (sensitive->sensitive.sphincsplus.t.size != 2800)
-					  return TPM_RCS_SIZE + blameSensitive;
-				  break;
-			  case TPM_SPHINCS_PLUS_MODE_3:
-				  if (sensitive->sensitive.sphincsplus.t.size != 3504)
-					  return TPM_RCS_SIZE + blameSensitive;
-				  break;
-			  case TPM_SPHINCS_PLUS_MODE_4:
-				  if (sensitive->sensitive.sphincsplus.t.size == 3856)
-					  return TPM_RCS_SIZE + blameSensitive;
-				  break;
-			  default:
-				  return TPM_RCS_VALUE + blamePublic;
-			  }
-		  }
+				  }
+				  else {
+					  return TPM_RCS_VALUE + blamePublic;
+				  }
+			}
+		}
 		  break;
 #endif
 	  default:
