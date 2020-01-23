@@ -76,7 +76,6 @@ int main(int argc, char *argv[])
     TPMI_ALG_PUBLIC 		algPublic = TPM_ALG_RSA;
     TPMI_ECC_CURVE		curveID = TPM_ECC_NONE;
     TPMI_DILITHIUM_MODE	dilithium_mode = TPM_DILITHIUM_MODE_NONE;
-	TPMI_SPHINCS_PLUS_MODE	sphincsplus_mode = TPM_SPHINCS_PLUS_MODE_NONE;
     TPMI_KYBER_SECURITY	kyber_k = TPM_KYBER_SECURITY_NONE;
     TPMI_LDAA_SECURITY_MODE	ldaa_mode = TPM_LDAA_SECURITY_MODE_NONE;
     TPMI_ALG_HASH		halg = TPM_ALG_SHA256;
@@ -231,30 +230,7 @@ int main(int argc, char *argv[])
 	    }
 	}
 	else if (strcmp(argv[i], "-sphincsplus") == 0) {
-	algPublic = TPM_ALG_SPHINCS_PLUS;
-	i++;
-	if (i < argc) {
-		if (strcmp(argv[i], "mode=1") == 0) {
-			sphincsplus_mode = TPM_SPHINCS_PLUS_MODE_1;
-		}
-		else if (strcmp(argv[i], "mode=2") == 0) {
-			sphincsplus_mode = TPM_SPHINCS_PLUS_MODE_2;
-		}
-		else if (strcmp(argv[i], "mode=3") == 0) {
-			sphincsplus_mode = TPM_SPHINCS_PLUS_MODE_3;
-		}
-		else if (strcmp(argv[i], "mode=4") == 0) {
-			sphincsplus_mode = TPM_SPHINCS_PLUS_MODE_4;
-		}
-		else {
-			printf("Bad parameter %s for -sphincsplus\n", argv[i]);
-			printUsage();
-		}
-	}
-	else {
-		printf("-sphincsplus option needs a value\n");
-		printUsage();
-		}
+		algPublic = TPM_ALG_SPHINCS_PLUS;
 	}
 	else if (strcmp(argv[i], "-ecc") == 0) {
 	    algPublic = TPM_ALG_ECC;
@@ -583,7 +559,7 @@ int main(int argc, char *argv[])
 	    rc = asymPublicTemplate(&publicArea,
 				    addObjectAttributes, deleteObjectAttributes,
 				    keyType, algPublic, curveID, nalg, halg,
-				    policyFilename, dilithium_mode, sphincsplus_mode, kyber_k,
+				    policyFilename, dilithium_mode, kyber_k,
                     &ldaa_issuer_at, ldaa_mode);
 	    break;
 	  case TYPE_DES:
