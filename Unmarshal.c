@@ -5194,17 +5194,6 @@ TPM2B_LDAA_SIGN_STATE_Unmarshal(TPM2B_LDAA_SIGN_STATE *target, BYTE **buffer, UI
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
 TPM_RC
-SPHINCS_PLUS_Mode_Unmarshal(BYTE* target, BYTE** buffer, UINT32* size)
-{
-	TPM_RC rc = TPM_RC_SUCCESS;
-
-	if (rc == TPM_RC_SUCCESS) {
-		rc = UINT8_Unmarshal(target, buffer, size);
-	}
-	return rc;
-}
-
-TPM_RC
 TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Unmarshal(TPM2B_SPHINCS_PLUS_PUBLIC_KEY* target, BYTE** buffer, UINT32* size)
 {
 	TPM_RC rc = TPM_RC_SUCCESS;
