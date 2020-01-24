@@ -652,12 +652,6 @@
 #if defined ALG_SPHINCS_PLUS && ALG_SPHINCS_PLUS == YES
 #define TPM_ALG_SPHINCS_PLUS                   (TPM_ALG_ID)(ALG_SPHINCS_PLUS_VALUE)
 #endif   // ALG_SPHINCS_PLUS
-
-#define  TPM_SPHINCS_PLUS_MODE_NONE (TPM_SPHINCS_PLUS_MODE)(0x00)
-#define  TPM_SPHINCS_PLUS_MODE_1    (TPM_SPHINCS_PLUS_MODE)(0x01)
-#define  TPM_SPHINCS_PLUS_MODE_2    (TPM_SPHINCS_PLUS_MODE)(0x02)
-#define  TPM_SPHINCS_PLUS_MODE_3    (TPM_SPHINCS_PLUS_MODE)(0x03)
-#define  TPM_SPHINCS_PLUS_MODE_4    (TPM_SPHINCS_PLUS_MODE)(0x04)
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
@@ -1567,6 +1561,7 @@ typedef  UINT32             TPM_CC;
 /*****************************************************************************/
 
 /* Compile variable. May increase based on implementation. */
+/* Changed TPM_CC_LAST from 0x000001A4 to 0x000001A5 for including SPHINCS+ */
 #define  TPM_CC_LAST				(TPM_CC)(0x000001A5)
 
 #ifndef CC_Vendor_TCG_Test

@@ -1853,13 +1853,6 @@ void TSS_TPMT_SPHINCS_PLUS_SCHEME_Print(TPMT_SPHINCS_PLUS_SCHEME* source, unsign
 	return;
 }
 
-void TSS_TPMI_SPHINCS_PLUS_MODE_Print(const char* string, BYTE source, unsigned int indent)
-{
-	printf("%*s", indent, "");
-	printf("%s TPMI_SPHINCS_PLUS_MODE %d\n", string, source);
-	return;
-}
-
 /* Table 177 - Definition of {ECC} TPMS_ALGORITHM_DETAIL_ECC Structure <OUT> */
 
 void TSS_TPMS_ALGORITHM_DETAIL_ECC_Print(TPMS_ALGORITHM_DETAIL_ECC *source, unsigned int indent)
@@ -2097,7 +2090,6 @@ void TSS_TPMS_SPHINCS_PLUS_PARMS_Print(TPMS_SPHINCS_PLUS_PARMS* source, unsigned
 {
 	TSS_TPMT_SYM_DEF_OBJECT_Print(&source->symmetric, indent);
 	TSS_TPMT_SPHINCS_PLUS_SCHEME_Print(&source->scheme, indent);
-	TSS_TPMI_SPHINCS_PLUS_MODE_Print("mode", source->mode, indent);
 	return;
 }
 

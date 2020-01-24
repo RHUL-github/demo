@@ -555,8 +555,6 @@ extern "C" {
 	/*                             Sphincs+ Mods                                 */
 	/*****************************************************************************/
 	LIB_EXPORT TPM_RC
-		SPHINCS_PLUS_Mode_Unmarshal(BYTE* target, BYTE** buffer, UINT32* size);
-	LIB_EXPORT TPM_RC
 		TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Unmarshal(TPM2B_SPHINCS_PLUS_PUBLIC_KEY* target, BYTE** buffer, UINT32* size);
 	LIB_EXPORT TPM_RC
 		TPM2B_SPHINCS_PLUS_SECRET_KEY_Unmarshal(TPM2B_SPHINCS_PLUS_SECRET_KEY* target, BYTE** buffer, UINT32* size);

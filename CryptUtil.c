@@ -1630,7 +1630,9 @@ CryptIsUniqueSizeValid(
 #endif //TPM_ALG_DILITHIUM
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
-			  consistent = publicArea->unique.sphincsplus.t.size == 1760;
+			/* SPHINCS+ Maximum public key size = 32 bytes */
+			/* SPHINCS+ Maximum secret Key Size = 64 bytes */
+			  consistent = publicArea->unique.sphincsplus.t.size == 32;
 		break;
 #endif //TPM_ALG_SPHINCS_PLUS
 	  default:
@@ -1712,7 +1714,9 @@ CryptIsSensitiveSizeValid(
 #endif //TPM_ALG_DILITHIUM
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
-			  consistent = sensitiveArea->sensitive.sphincsplus.t.size == 3856;
+		  /* SPHINCS+ Maximum public key size = 32 bytes */
+		  /* SPHINCS+ Maximum secret Key Size = 64 bytes */
+			  consistent = sensitiveArea->sensitive.sphincsplus.t.size == 64;
 		}
 		break;
 #endif //TPM_ALG_SPHINCS_PLUS
@@ -1945,7 +1949,9 @@ CryptValidateKeys(
 #endif
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
-		  if (publicArea->unique.sphincsplus.t.size != 1760) {
+		/* SPHINCS+ Maximum public key size = 32 bytes */
+		/* SPHINCS+ Maximum secret Key Size = 64 bytes */
+		  if (publicArea->unique.sphincsplus.t.size != 32) {
 			  return TPM_RC_KEY + blamePublic;
 		  }
 		  else {
@@ -1953,7 +1959,7 @@ CryptValidateKeys(
 		  }
 
 		  if (sensitive != NULL) {
-				  if (sensitive->sensitive.sphincsplus.t.size == 3856) {
+				  if (sensitive->sensitive.sphincsplus.t.size == 64) {
 					  return TPM_RCS_SIZE + blameSensitive;
 				  }
 				  else {

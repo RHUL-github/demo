@@ -287,8 +287,6 @@ extern "C" {
 		void TSS_TPMS_SPHINCS_PLUS_PARMS_Print(TPMS_SPHINCS_PLUS_PARMS* source, unsigned int indent);
 	LIB_EXPORT
 		void TSS_TPMT_SPHINCS_PLUS_SCHEME_Print(TPMT_SPHINCS_PLUS_SCHEME* source, unsigned int indent);
-	LIB_EXPORT
-		void TSS_TPMI_SPHINCS_PLUS_MODE_Print(const char* string, BYTE source, unsigned int indent);
 
 #ifdef __cplusplus
 }

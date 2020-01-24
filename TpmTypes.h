@@ -1280,14 +1280,60 @@ typedef union {
 /*                             Dilithium Mods                                */
 /*****************************************************************************/
 /*****************************************************************************/
-/*                             Sphincs+ Mods                                */
+/*                             Sphincs+ Mods                                 */
+/* SPHINCS+-128f has the following parameter set :							 */
+/* n : the security parameter = 16											 */
+/* w : the Winternitz parameter = 16										 */
+/* h : the height of the hypertree = 60										 */
+/* d : the number of layers in the hypertree = 20							 */
+/* k : the number of trees in FORS = 30										 */
+/* t : the number of leaves of a FORS tree									 */
+/* log(t) = 9																 */
+/* sig bytes = 16,976														 */
 /*****************************************************************************/
-#define MAX_SPHINCS_PLUS_PUBLIC_KEY_SIZE 1760
-#define MAX_SPHINCS_PLUS_SECRET_KEY_SIZE 3856
-#define MAX_SPHINCS_PLUS_DIGEST_SIZE 64 // I think this is a safe digest value even after a SHA3 implementation is added
-#define MAX_SPHINCS_PLUS_CRYPTO_BYTES 3366
-#define MAX_SPHINCS_PLUS_SIGNED_MESSAGE_SIZE MAX_SPHINCS_PLUS_DIGEST_SIZE+MAX_SPHINCS_PLUS_CRYPTO_BYTES
-#define MAX_SPHINCS_PLUS_MESSAGE_SIZE MAX_SPHINCS_PLUS_DIGEST_SIZE+MAX_SPHINCS_PLUS_CRYPTO_BYTES
+/* Parameters (SPX_) are defined in sphincsplus-params.h */
+/* The message size is defined in sphincsplus-PQCgenKAT_sign.c */
+/* The signature size is defined in sphincsplus-spx.c */
+/* SPHINCS+ - Hash output length in bytes. */
+#define SPX_N 16
+/* SPHINCS+ Height of the hypertree. */
+#define SPX_FULL_HEIGHT 60
+/* SPHINCS+ Number of subtree layer. */
+#define SPX_D =20
+/* SPHINCS+ FORS tree dimensions. */
+#define SPX_FORS_HEIGHT 9
+#define SPX_FORS_TREES 30
+/* SPHINCS+ Winternitz parameter, */
+#define SPX_WOTS_W 16
+
+/* SPHINCS+ WOTS parameters. */
+#define SPX_WOTS_LOGW 4
+#define SPX_WOTS_LEN1 (8 * SPX_N / SPX_WOTS_LOGW)
+#define SPX_WOTS_LEN2 3
+#define SPX_WOTS_LEN (SPX_WOTS_LEN1 + SPX_WOTS_LEN2)
+#define SPX_WOTS_BYTES (SPX_WOTS_LEN * SPX_N)
+
+/* SPHINCS+ FORS parameters. */
+#define SPX_FORS_BYTES ((SPX_FORS_HEIGHT + 1) * SPX_FORS_TREES * SPX_N)
+
+/* SPHINCS+ Signature Size */
+/* SPX_BYTES = (16 + 4800 + 20 * 560) + (60 * 16) = 16016 + 960 = 16976 */
+#define SPX_BYTES (SPX_N + SPX_FORS_BYTES + SPX_D * SPX_WOTS_BYTES +\
+                   SPX_FULL_HEIGHT * SPX_N)
+/* SPHINCS+ Public Key Size */
+#define SPX_PK_BYTES (2 * SPX_N)
+/* SPHINCS+ Secret Key Size */
+#define SPX_SK_BYTES (2 * SPX_N + SPX_PK_BYTES)
+/* SPHINCS+ Message Size */
+#define SPX_MLEN_BYTES 3300
+/* SPHINCS+ Signed Message Size */
+#define SPX_SMLEN_BYTES (SPX_BYTES + SPX_MLEN_BYTES)
+
+#define MAX_SPHINCS_PLUS_PUBLIC_KEY_SIZE SPX_PK_BYTES
+#define MAX_SPHINCS_PLUS_SECRET_KEY_SIZE SPX_SK_BYTES
+#define MAX_SPHINCS_PLUS_MESSAGE_SIZE SPX_MLEN_BYTES
+#define MAX_SPHINCS_PLUS_SIGNED_MESSAGE_SIZE SPX_SMLEN_BYTES
+
 typedef union {
 	struct {
 		UINT32                  size;
@@ -2024,7 +2070,6 @@ typedef struct {
 typedef struct {
 	TPMI_ALG_HASH                  hash;
 	TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE sig;
-	BYTE                           mode;
 } TPMS_SIGNATURE_SPHINCS_PLUS;
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                */
@@ -2207,7 +2252,6 @@ typedef struct {
 typedef struct {
 	TPMT_SYM_DEF_OBJECT   symmetric;
 	TPMT_SPHINCS_PLUS_SCHEME scheme;
-	BYTE                  mode;
 } TPMS_SPHINCS_PLUS_PARMS;
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                */
