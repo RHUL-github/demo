@@ -1281,19 +1281,19 @@ typedef union {
 /*****************************************************************************/
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
-/* SPHINCS+-128f has the following parameter set :							 */
-/* n : the security parameter = 16											 */
-/* w : the Winternitz parameter = 16										 */
-/* h : the height of the hypertree = 60										 */
-/* d : the number of layers in the hypertree = 20							 */
-/* k : the number of trees in FORS = 30										 */
-/* t : the number of leaves of a FORS tree									 */
-/* log(t) = 9																 */
-/* sig bytes = 16,976														 */
+/* SPHINCS+ 128f has the following parameter set :                           */
+/* n : the security parameter = 16                                           */
+/* w : the Winternitz parameter = 16                                         */
+/* h : the height of the hypertree = 60                                      */
+/* d : the number of layers in the hypertree = 20                            */
+/* k : the number of trees in FORS = 30                                      */
+/* t : the number of leaves of a FORS tree                                   */
+/* log(t) = 9                                                                */
+/* signature in bytes = 16976                                                */
 /*****************************************************************************/
 /* Parameters (SPX_) are defined in sphincsplus-params.h */
 /* The message size is defined in sphincsplus-PQCgenKAT_sign.c */
-/* The signature size is defined in sphincsplus-spx.c */
+/* The signature size is defined in sphincsplus-params.h */
 /* SPHINCS+ - Hash output length in bytes. */
 #define SPX_N 16
 /* SPHINCS+ Height of the hypertree. */
