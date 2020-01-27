@@ -74,10 +74,10 @@ main()
         fprintf(fp_req, "public key =\n");
 		/* Renamed "sk" to "secret key" */
         fprintf(fp_req, "secret key =\n");
-		/* Renamed "smlen" to "signature length" */
-        fprintf(fp_req, "signature length =\n");
-		/* Renamed "sm" to "signature" */
-        fprintf(fp_req, "signature =\n\n");
+		/* Renamed "smlen" to "signed message length" */
+        fprintf(fp_req, "signed message length =\n");
+		/* Renamed "sm" to "signed message" */
+        fprintf(fp_req, "signed message =\n\n");
     }
     fclose(fp_req);
     
@@ -110,6 +110,7 @@ main()
         if ( FindMarker(fp_req, "message length = ") )
             fscanf(fp_req, "%llu", &mlen);
         else {
+			/* Renamed 'mlen' to 'message length' */
             printf("ERROR: unable to read 'message length' from <%s>\n", fn_req);
             return KAT_DATA_ERROR;
         }
@@ -143,10 +144,10 @@ main()
             printf("crypto_sign returned <%d>\n", ret_val);
             return KAT_CRYPTO_FAILURE;
         }
-		/* Renamed "smlen" to "signature length" */
-        fprintf(fp_rsp, "signature length = %llu\n", smlen);
-		/* Renamed "sm" to "signature" */
-        fprintBstr(fp_rsp, "signature = ", sm, smlen);
+		/* Renamed "smlen" to "signed message length" */
+        fprintf(fp_rsp, "signed message length = %llu\n", smlen);
+		/* Renamed "sm" to "signed message" */
+        fprintBstr(fp_rsp, "signed message = ", sm, smlen);
         fprintf(fp_rsp, "\n");
         
         if ( (ret_val = crypto_sign_open(m1, &mlen1, sm, smlen, pk)) != 0) {
