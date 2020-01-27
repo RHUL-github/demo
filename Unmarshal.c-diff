@@ -1,0 +1,198 @@
+1283a1284,1286
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> #endif
+2970a2974,2989
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                 */
+> /*****************************************************************************/
+> TPM_RC
+> TPMS_SIG_SCHEME_SPHINCS_PLUS_Unmarshal(TPMS_SIG_SCHEME_SPHINCS_PLUS* target, BYTE** buffer, UINT32* size)
+> {
+> 	TPM_RC rc = TPM_RC_SUCCESS;
+> 
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		rc = TPMS_SCHEME_HASH_Unmarshal(target, buffer, size);
+> 	}
+> 	return rc;
+> }
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                 */
+> /*****************************************************************************/
+3065a3085,3089
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 		  rc = TPMS_SIG_SCHEME_SPHINCS_PLUS_Unmarshal(&target->sphincsplus, buffer, size);
+> 		  break;
+> #endif
+3380a3405,3409
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 		  rc = TPMS_SIG_SCHEME_SPHINCS_PLUS_Unmarshal(&target->sphincsplus, buffer, size);
+> 		  break;
+> #endif
+3557a3587,3605
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                */
+> /*****************************************************************************/
+> TPM_RC
+> TPMT_SPHINCS_PLUS_SCHEME_Unmarshal(TPMT_SPHINCS_PLUS_SCHEME* target, BYTE** buffer, UINT32* size, BOOL allowNull)
+> {
+> 	TPM_RC rc = TPM_RC_SUCCESS;
+> 
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		rc = TPMI_ALG_SPHINCS_PLUS_SCHEME_Unmarshal(&target->scheme, buffer, size, allowNull);
+> 	}
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		rc = TPMU_ASYM_SCHEME_Unmarshal(&target->details, buffer, size, target->scheme);
+> 	}
+> 	return rc;
+> }
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                */
+> /*****************************************************************************/
+3845a3894,3923
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                 */
+> /*****************************************************************************/
+> TPM_RC
+> TPMI_ALG_SPHINCS_PLUS_SCHEME_Unmarshal(TPMI_ALG_SPHINCS_PLUS_SCHEME* target, BYTE** buffer, UINT32* size, BOOL allowNull)
+> {
+> 	TPM_RC rc = TPM_RC_SUCCESS;
+> 
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		rc = TPM_ALG_ID_Unmarshal(target, buffer, size);
+> 	}
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		switch (*target) {
+> #if ALG_SPHINCS_PLUS
+> 		case TPM_ALG_SPHINCS_PLUS:
+> #endif
+> 			break;
+> 		case TPM_ALG_NULL:
+> 			if (allowNull) {
+> 				break;
+> 			}
+> 		default:
+> 			rc = TPM_RC_SCHEME;
+> 		}
+> 	}
+> 	return rc;
+> }
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                 */
+> /*****************************************************************************/
+4017a4096,4118
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                 */
+> /*****************************************************************************/
+> TPM_RC
+> TPMS_SIGNATURE_SPHINCS_PLUS_Unmarshal(TPMS_SIGNATURE_SPHINCS_PLUS* target, BYTE** buffer, UINT32* size)
+> {
+> 	TPM_RC rc = TPM_RC_SUCCESS;
+> 
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		rc = TPMI_ALG_HASH_Unmarshal(&target->hash, buffer, size, NO);
+> 	}
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		rc = TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE_Unmarshal(&target->sig, buffer, size);
+> 	}
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		rc = UINT8_Unmarshal(&target->mode, buffer, size);
+> 	}
+> 	return rc;
+> }
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                 */
+> /*****************************************************************************/
+> 
+4087a4189,4193
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 		  rc = TPMS_SIGNATURE_SPHINCS_PLUS_Unmarshal(&target->sphincsplus, buffer, size);
+> 		  break;
+> #endif
+4173a4280,4282
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> #endif
+4223a4333,4337
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 		  rc = TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Unmarshal(&target->sphincsplus, buffer, size);
+> 		  break;
+> #endif
+4363a4478,4499
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                 */
+> /*****************************************************************************/
+> TPM_RC
+> TPMS_SPHINCS_PLUS_PARMS_Unmarshal(TPMS_SPHINCS_PLUS_PARMS* target, BYTE** buffer, UINT32* size)
+> {
+> 	TPM_RC rc = TPM_RC_SUCCESS;
+> 
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		rc = TPMT_SYM_DEF_OBJECT_Unmarshal(&target->symmetric, buffer, size, YES);
+> 	}
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		rc = TPMT_SPHINCS_PLUS_SCHEME_Unmarshal(&target->scheme, buffer, size, YES);
+> 	}
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		rc = UINT8_Unmarshal(&target->mode, buffer, size);
+> 	}
+> 	return rc;
+> }
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                 */
+> /*****************************************************************************/
+4414a4551,4555
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 		  rc = TPMS_SPHINCS_PLUS_PARMS_Unmarshal(&target->sphincsplusDetail, buffer, size);
+> 		  break;
+> #endif
+4560a4702,4706
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 		  rc = TPM2B_SPHINCS_PLUS_SECRET_KEY_Unmarshal(&target->sphincsplus, buffer, size);
+> 		  break;
+> #endif
+5045a5192,5229
+> /*****************************************************************************/
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                 */
+> /*****************************************************************************/
+> TPM_RC
+> TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Unmarshal(TPM2B_SPHINCS_PLUS_PUBLIC_KEY* target, BYTE** buffer, UINT32* size)
+> {
+> 	TPM_RC rc = TPM_RC_SUCCESS;
+> 
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		rc = TPM2B_Unmarshal(&target->b, MAX_CONTEXT_SIZE, buffer, size);
+> 	}
+> 	return rc;
+> }
+> 
+> TPM_RC
+> TPM2B_SPHINCS_PLUS_SECRET_KEY_Unmarshal(TPM2B_SPHINCS_PLUS_SECRET_KEY* target, BYTE** buffer, UINT32* size)
+> {
+> 	TPM_RC rc = TPM_RC_SUCCESS;
+> 
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		rc = TPM2B_Unmarshal(&target->b, MAX_CONTEXT_SIZE, buffer, size);
+> 	}
+> 	return rc;
+> }
+> 
+> TPM_RC
+> TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE_Unmarshal(TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE* target, BYTE** buffer, UINT32* size)
+> {
+> 	TPM_RC rc = TPM_RC_SUCCESS;
+> 
+> 	if (rc == TPM_RC_SUCCESS) {
+> 		rc = TPM2B_Unmarshal(&target->b, MAX_CONTEXT_SIZE, buffer, size);
+> 	}
+> 	return rc;
+> }
+> /*****************************************************************************/
+> /*                             Sphincs+ Mods                                 */

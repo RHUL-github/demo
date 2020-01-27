@@ -1,0 +1,86 @@
+396a397,399
+> #if ALG_SPHINCS_PLUS
+> 	ok = ok && CryptSphincsPlusInit();
+> #endif // TPM_ALG_SPHINCS_PLUS
+428a432,434
+> #if ALG_SPHINCS_PLUS
+> 		&& CryptSphincsPlusStartup()
+> #endif // TPM_ALG_SPHINCS_PLUS
+491a498,500
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> #endif
+1040a1050,1055
+> #if ALG_SPHINCS_PLUS
+> 		// Create Sphincs+ key
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 		  result = CryptSphincsPlusGenerateKey(object, rand);
+> 		  break;
+> #endif // TPM_ALG_SPHINCS_PLUS
+1142a1158,1165
+> #if ALG_SPHINCS_PLUS
+> 		// If SPHINCS_PLUS is supported
+> #   if !defined TPM_ALG_SPHINCS_PLUS
+> #       error "SPHINCS_PLUS is required for SPHINCS_PLUS"
+> #   endif
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 		  return auth->signature.sphincsplus.hash;
+> #endif //TPM_ALG_SPHINCS_PLUS
+1231a1255,1258
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 		  break;
+> #endif // TPM_ALG_SPHINCS_PLUS
+1436a1464,1468
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 		  result = CryptSphincsPlusSign(signature, signKey, digest);
+> 		  break;
+> #endif // TPM_ALG_SPHINCS_PLUS
+1491a1524,1529
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 		  // Call SPHINCS_PLUS code to verify signature
+> 		  result = CryptSphincsPlusValidateSignature(signature, signObject, digest);
+> 		  break;
+> #endif //TPM_ALG_SPHINCS_PLUS
+1592a1631,1637
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 			/* SPHINCS+ Maximum public key size = 32 bytes */
+> 			/* SPHINCS+ Maximum secret Key Size = 64 bytes */
+> 			  consistent = publicArea->unique.sphincsplus.t.size == 32;
+> 		break;
+> #endif //TPM_ALG_SPHINCS_PLUS
+1669a1715,1722
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 		  /* SPHINCS+ Maximum public key size = 32 bytes */
+> 		  /* SPHINCS+ Maximum secret Key Size = 64 bytes */
+> 			  consistent = sensitiveArea->sensitive.sphincsplus.t.size == 64;
+> 		}
+> 		break;
+> #endif //TPM_ALG_SPHINCS_PLUS
+1895a1949,1970
+> #endif
+> #if ALG_SPHINCS_PLUS
+> 	  case TPM_ALG_SPHINCS_PLUS:
+> 		/* SPHINCS+ Maximum public key size = 32 bytes */
+> 		/* SPHINCS+ Maximum secret Key Size = 64 bytes */
+> 		  if (publicArea->unique.sphincsplus.t.size != 32) {
+> 			  return TPM_RC_KEY + blamePublic;
+> 		  }
+> 		  else {
+> 			  return TPM_RCS_VALUE + blamePublic; 
+> 		  }
+> 
+> 		  if (sensitive != NULL) {
+> 				  if (sensitive->sensitive.sphincsplus.t.size == 64) {
+> 					  return TPM_RCS_SIZE + blameSensitive;
+> 				  }
+> 				  else {
+> 					  return TPM_RCS_VALUE + blamePublic;
+> 				  }
+> 			}
+> 		}
+> 		  break;
