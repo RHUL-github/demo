@@ -48,7 +48,7 @@
 > /*****************************************************************************/
 > /*                             Sphincs+ Mods	                             */
 > /*****************************************************************************/
-1980a2027,2042
+1980a2027,2041
 > /*****************************************************************************/
 > /*                             Sphincs+ Mods	                             */
 > /*****************************************************************************/
@@ -59,25 +59,24 @@
 > 
 > 	written += TPMI_ALG_HASH_Marshal(&source->hash, buffer, size);
 > 	written += TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE_Marshal(&source->sig, buffer, size);
-> 	written += UINT8_Marshal(&source->mode, buffer, size);
 > 	return written;
 > }
 > /*****************************************************************************/
 > /*                             Sphincs+ Mods                                 */
 > /*****************************************************************************/
-1993a2056,2060
+1993a2055,2059
 > #if ALG_SPHINCS_PLUS
 > 	  case TPM_ALG_SPHINCS_PLUS:
 > 		  written += TPMS_SIGNATURE_SPHINCS_PLUS_Marshal(&source->sphincsplus, buffer, size);
 > 		  break;
 > #endif
-2096a2164,2168
+2096a2163,2167
 > #if ALG_SPHINCS_PLUS
 > 	  case TPM_ALG_SPHINCS_PLUS:
 > 		  written += TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Marshal(&source->sphincsplus, buffer, size);
 > 		  break;
 > #endif
-2206a2279,2294
+2206a2278,2292
 > /*****************************************************************************/
 > /*                             Sphincs+ Mods                                 */
 > /*****************************************************************************/
@@ -88,25 +87,24 @@
 > 
 > 	written += TPMT_SYM_DEF_OBJECT_Marshal(&source->symmetric, buffer, size);
 > 	written += TPMT_SPHINCS_PLUS_SCHEME_Marshal(&source->scheme, buffer, size);
-> 	written += UINT8_Marshal(&source->mode, buffer, size);
 > 	return written;
 > }
 > /*****************************************************************************/
 > /*                             Sphincs+ Mods                                 */
 > /*****************************************************************************/
-2235a2324,2328
+2235a2322,2326
 > #if ALG_SPHINCS_PLUS
 > 	  case TPM_ALG_SPHINCS_PLUS:
 > 		  written += TPMS_SPHINCS_PLUS_PARMS_Marshal(&source->sphincsplusDetail, buffer, size);
 > 		  break;
 > #endif
-2317a2411,2415
+2317a2409,2413
 > #if ALG_SPHINCS_PLUS
 > 	  case TPM_ALG_SPHINCS_PLUS:
 > 		  written += TPM2B_SPHINCS_PLUS_SECRET_KEY_Marshal(&source->sphincsplus, buffer, size);
 > 		  break;
 > #endif
-2633a2732,2760
+2633a2730,2758
 > /*****************************************************************************/
 > /*****************************************************************************/
 > /*                             Sphincs+ Mods                                 */
