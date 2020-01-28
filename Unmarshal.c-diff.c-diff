@@ -82,7 +82,7 @@
 > /*****************************************************************************/
 > /*                             Sphincs+ Mods                                 */
 > /*****************************************************************************/
-4017a4096,4118
+4017a4096,4115
 > /*****************************************************************************/
 > /*                             Sphincs+ Mods                                 */
 > /*****************************************************************************/
@@ -97,32 +97,29 @@
 > 	if (rc == TPM_RC_SUCCESS) {
 > 		rc = TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE_Unmarshal(&target->sig, buffer, size);
 > 	}
-> 	if (rc == TPM_RC_SUCCESS) {
-> 		rc = UINT8_Unmarshal(&target->mode, buffer, size);
-> 	}
 > 	return rc;
 > }
 > /*****************************************************************************/
 > /*                             Sphincs+ Mods                                 */
 > /*****************************************************************************/
 > 
-4087a4189,4193
+4087a4186,4190
 > #if ALG_SPHINCS_PLUS
 > 	  case TPM_ALG_SPHINCS_PLUS:
 > 		  rc = TPMS_SIGNATURE_SPHINCS_PLUS_Unmarshal(&target->sphincsplus, buffer, size);
 > 		  break;
 > #endif
-4173a4280,4282
+4173a4277,4279
 > #if ALG_SPHINCS_PLUS
 > 	  case TPM_ALG_SPHINCS_PLUS:
 > #endif
-4223a4333,4337
+4223a4330,4334
 > #if ALG_SPHINCS_PLUS
 > 	  case TPM_ALG_SPHINCS_PLUS:
 > 		  rc = TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Unmarshal(&target->sphincsplus, buffer, size);
 > 		  break;
 > #endif
-4363a4478,4499
+4363a4475,4493
 > /*****************************************************************************/
 > /*                             Sphincs+ Mods                                 */
 > /*****************************************************************************/
@@ -137,27 +134,24 @@
 > 	if (rc == TPM_RC_SUCCESS) {
 > 		rc = TPMT_SPHINCS_PLUS_SCHEME_Unmarshal(&target->scheme, buffer, size, YES);
 > 	}
-> 	if (rc == TPM_RC_SUCCESS) {
-> 		rc = UINT8_Unmarshal(&target->mode, buffer, size);
-> 	}
 > 	return rc;
 > }
 > /*****************************************************************************/
 > /*                             Sphincs+ Mods                                 */
 > /*****************************************************************************/
-4414a4551,4555
+4414a4545,4549
 > #if ALG_SPHINCS_PLUS
 > 	  case TPM_ALG_SPHINCS_PLUS:
 > 		  rc = TPMS_SPHINCS_PLUS_PARMS_Unmarshal(&target->sphincsplusDetail, buffer, size);
 > 		  break;
 > #endif
-4560a4702,4706
+4560a4696,4700
 > #if ALG_SPHINCS_PLUS
 > 	  case TPM_ALG_SPHINCS_PLUS:
 > 		  rc = TPM2B_SPHINCS_PLUS_SECRET_KEY_Unmarshal(&target->sphincsplus, buffer, size);
 > 		  break;
 > #endif
-5045a5192,5229
+5045a5186,5223
 > /*****************************************************************************/
 > /*****************************************************************************/
 > /*                             Sphincs+ Mods                                 */
