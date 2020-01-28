@@ -2034,7 +2034,6 @@ TPMS_SIGNATURE_SPHINCS_PLUS_Marshal(TPMS_SIGNATURE_SPHINCS_PLUS* source, BYTE** 
 
 	written += TPMI_ALG_HASH_Marshal(&source->hash, buffer, size);
 	written += TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE_Marshal(&source->sig, buffer, size);
-	written += UINT8_Marshal(&source->mode, buffer, size);
 	return written;
 }
 /*****************************************************************************/
@@ -2286,7 +2285,6 @@ TPMS_SPHINCS_PLUS_PARMS_Marshal(TPMS_SPHINCS_PLUS_PARMS* source, BYTE** buffer, 
 
 	written += TPMT_SYM_DEF_OBJECT_Marshal(&source->symmetric, buffer, size);
 	written += TPMT_SPHINCS_PLUS_SCHEME_Marshal(&source->scheme, buffer, size);
-	written += UINT8_Marshal(&source->mode, buffer, size);
 	return written;
 }
 /*****************************************************************************/
