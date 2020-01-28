@@ -4107,9 +4107,6 @@ TPMS_SIGNATURE_SPHINCS_PLUS_Unmarshal(TPMS_SIGNATURE_SPHINCS_PLUS* target, BYTE*
 	if (rc == TPM_RC_SUCCESS) {
 		rc = TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE_Unmarshal(&target->sig, buffer, size);
 	}
-	if (rc == TPM_RC_SUCCESS) {
-		rc = UINT8_Unmarshal(&target->mode, buffer, size);
-	}
 	return rc;
 }
 /*****************************************************************************/
@@ -4488,9 +4485,6 @@ TPMS_SPHINCS_PLUS_PARMS_Unmarshal(TPMS_SPHINCS_PLUS_PARMS* target, BYTE** buffer
 	}
 	if (rc == TPM_RC_SUCCESS) {
 		rc = TPMT_SPHINCS_PLUS_SCHEME_Unmarshal(&target->scheme, buffer, size, YES);
-	}
-	if (rc == TPM_RC_SUCCESS) {
-		rc = UINT8_Unmarshal(&target->mode, buffer, size);
 	}
 	return rc;
 }
