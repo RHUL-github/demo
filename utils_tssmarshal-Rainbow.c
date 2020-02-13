@@ -4708,6 +4708,21 @@ TSS_TPMS_SIG_SCHEME_SPHINCS_PLUS_Marshalu(const TPMS_SIG_SCHEME_SPHINCS_PLUS *so
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
+/*****************************************************************************/
+/*                             Rainbow Mods                                 */
+/*****************************************************************************/
+TPM_RC
+TSS_TPMS_SIG_SCHEME_RAINBOW_Marshalu(const TPMS_SIG_SCHEME_RAINBOW *source, UINT32 *written, BYTE **buffer, uint32_t *size)
+{
+	TPM_RC rc = 0;
+	if (rc == 0) {
+		rc = TSS_TPMS_SCHEME_HASH_Marshalu(source, written, buffer, size);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                 */
+/*****************************************************************************/
 
 /* Table 143 - Definition of {ECC} Types for ECC Signature Schemes */
 
@@ -4790,6 +4805,13 @@ TSS_TPMU_SIG_SCHEME_Marshalu(const TPMU_SIG_SCHEME *source, UINT32 *written, BYT
 	  case TPM_ALG_SPHINCS_PLUS:
 		  if (rc == 0) {
 			  rc = TSS_TPMS_SIG_SCHEME_SPHINCS_PLUS_Marshalu(&source->sphincsplus, written, buffer, size);
+		  }
+		  break;
+#endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  if (rc == 0) {
+			  rc = TSS_TPMS_SIG_SCHEME_RAINBOW_Marshalu(&source->rainbow, written, buffer, size);
 		  }
 		  break;
 #endif
@@ -5043,6 +5065,13 @@ TSS_TPMU_ASYM_SCHEME_Marshalu(const TPMU_ASYM_SCHEME  *source, UINT32 *written, 
 		  }
 		  break;
 #endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  if (rc == 0) {
+			  rc = TSS_TPMS_SIG_SCHEME_RAINBOW_Marshalu(&source->rainbow, written, buffer, size);
+		  }
+		  break;
+#endif
 #ifdef TPM_ALG_ECDSA
       case TPM_ALG_ECDSA:
         if (rc == 0) {
@@ -5238,6 +5267,21 @@ TSS_TPMI_ALG_SPHINCS_PLUS_SCHEME_Marshalu(const TPMI_ALG_SPHINCS_PLUS_SCHEME *so
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TSS_TPMI_ALG_RAINBOW_SCHEME_Marshalu(const TPMI_ALG_RAINBOW_SCHEME *source, UINT32 *written, BYTE **buffer, uint32_t *size)
+{
+	TPM_RC rc = 0;
+	if (rc == 0) {
+		rc = TSS_TPM_ALG_ID_Marshalu(source, written, buffer, size);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
 
 TPM_RC
 TSS_TPMI_ALG_RSA_SCHEME_Marshalu(const TPMI_ALG_RSA_SCHEME *source, UINT32 *written, BYTE **buffer, uint32_t *size)
@@ -5338,7 +5382,7 @@ TSS_TPMT_LDAA_SCHEME_Marshalu(const TPMT_LDAA_SCHEME *source, UINT32 *written, B
 /*****************************************************************************/
 
 /*****************************************************************************/
-/*                             Sphincs+ Mods                                */
+/*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
 TPM_RC
 TSS_TPMT_SPHINCS_PLUS_SCHEME_Marshalu(const TPMT_SPHINCS_PLUS_SCHEME *source, UINT32 *written, BYTE **buffer, uint32_t *size)
@@ -5353,7 +5397,25 @@ TSS_TPMT_SPHINCS_PLUS_SCHEME_Marshalu(const TPMT_SPHINCS_PLUS_SCHEME *source, UI
 	return rc;
 }
 /*****************************************************************************/
-/*                             Sphincs+ Mods                                */
+/*                             Sphincs+ Mods                                 */
+/*****************************************************************************/
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TSS_TPMT_RAINBOW_SCHEME_Marshalu(const TPMT_RAINBOW_SCHEME *source, UINT32 *written, BYTE **buffer, uint32_t *size)
+{
+	TPM_RC rc = 0;
+	if (rc == 0) {
+		rc = TSS_TPMI_ALG_RAINBOW_SCHEME_Marshalu(&source->scheme, written, buffer, size);
+	}
+	if (rc == 0) {
+		rc = TSS_TPMU_ASYM_SCHEME_Marshalu(&source->details, written, buffer, size, source->scheme);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
 /*****************************************************************************/
 
 /* Table 156 - Definition of (TPM_ALG_ID) {RSA} TPMI_ALG_RSA_DECRYPT Type */
@@ -5673,6 +5735,27 @@ TSS_TPMS_SIGNATURE_SPHINCS_PLUS_Marshalu(const TPMS_SIGNATURE_SPHINCS_PLUS *sour
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TSS_TPMS_SIGNATURE_RAINBOW_Marshalu(const TPMS_SIGNATURE_RAINBOW *source, UINT32 *written, BYTE **buffer, uint32_t *size)
+{
+	TPM_RC rc = 0;
+	if (rc == 0) {
+		rc = TSS_TPMI_ALG_HASH_Marshalu(&source->hash, written, buffer, size);
+	}
+	if (rc == 0) {
+		rc = TSS_TPM2B_RAINBOW_SIGNED_MESSAGE_Marshalu(&source->sig, written, buffer, size);
+	}
+	if (rc == 0) {
+		rc = TSS_UINT8_Marshalu(&source->mode, written, buffer, size);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
 
 TPM_RC
 TSS_TPMS_SIGNATURE_ECDSA_Marshalu(const TPMS_SIGNATURE_ECDSA *source, UINT32 *written, BYTE **buffer, uint32_t *size)
@@ -5746,6 +5829,13 @@ TSS_TPMU_SIGNATURE_Marshalu(const TPMU_SIGNATURE *source, UINT32 *written, BYTE 
 	  case TPM_ALG_SPHINCS_PLUS:
 		  if (rc == 0) {
 			  rc = TSS_TPMS_SIGNATURE_SPHINCS_PLUS_Marshalu(&source->sphincsplus, written, buffer, size);
+		  }
+		  break;
+#endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  if (rc == 0) {
+			  rc = TSS_TPMS_SIGNATURE_RAINBOW_Marshalu(&source->rainbow, written, buffer, size);
 		  }
 		  break;
 #endif
@@ -5870,6 +5960,13 @@ TSS_TPMU_PUBLIC_ID_Marshalu(const TPMU_PUBLIC_ID *source, UINT32 *written, BYTE 
 	  case TPM_ALG_SPHINCS_PLUS:
 		  if (rc == 0) {
 			  rc = TSS_TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Marshalu(&source->sphincsplus, written, buffer, size);
+		  }
+		  break;
+#endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  if (rc == 0) {
+			  rc = TSS_TPM2B_RAINBOW_PUBLIC_KEY_Marshalu(&source->rainbow, written, buffer, size);
 		  }
 		  break;
 #endif
@@ -6100,6 +6197,27 @@ TSS_TPMS_SPHINCS_PLUS_PARMS_Marshalu(const TPMS_SPHINCS_PLUS_PARMS *source, UINT
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TSS_TPMS_RAINBOW_PARMS_Marshalu(const TPMS_RAINBOW_PARMS *source, UINT32 *written, BYTE **buffer, uint32_t *size)
+{
+	TPM_RC rc = 0;
+	if (rc == 0) {
+		rc = TSS_TPMT_SYM_DEF_OBJECT_Marshalu(&source->symmetric, written, buffer, size);
+	}
+	if (rc == 0) {
+		rc = TSS_TPMT_RAINBOW_SCHEME_Marshalu(&source->scheme, written, buffer, size);
+	}
+	if (rc == 0) {
+		rc = TSS_UINT8_Marshalu(&source->mode, written, buffer, size);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
 
 /* Table 181 - Definition of {ECC} TPMS_ECC_PARMS Structure */
 
@@ -6161,6 +6279,13 @@ TSS_TPMU_PUBLIC_PARMS_Marshalu(const TPMU_PUBLIC_PARMS *source, UINT32 *written,
 	  case TPM_ALG_SPHINCS_PLUS:
 		  if (rc == 0) {
 			  rc = TSS_TPMS_SPHINCS_PLUS_PARMS_Marshalu(&source->sphincsplusDetail, written, buffer, size);
+		  }
+		  break;
+#endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  if (rc == 0) {
+			  rc = TSS_TPMS_RAINBOW_PARMS_Marshalu(&source->rainbowDetail, written, buffer, size);
 		  }
 		  break;
 #endif
@@ -6338,6 +6463,13 @@ TSS_TPMU_SENSITIVE_COMPOSITE_Marshalu(const TPMU_SENSITIVE_COMPOSITE *source, UI
 	  case TPM_ALG_SPHINCS_PLUS:
 		  if (rc == 0) {
 			  rc = TSS_TPM2B_SPHINCS_PLUS_SECRET_KEY_Marshalu(&source->sphincsplus, written, buffer, size);
+		  }
+		  break;
+#endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  if (rc == 0) {
+			  rc = TSS_TPM2B_RAINBOW_SECRET_KEY_Marshalu(&source->rainbow, written, buffer, size);
 		  }
 		  break;
 #endif
@@ -6973,6 +7105,41 @@ TSS_TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE_Marshalu(const TPM2B_SPHINCS_PLUS_SIGNED_M
 }
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
+/*****************************************************************************/
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TSS_TPM2B_RAINBOW_PUBLIC_KEY_Marshalu(const TPM2B_RAINBOW_PUBLIC_KEY *source, UINT32 *written, BYTE **buffer, uint32_t *size)
+{
+	TPM_RC rc = 0;
+	if (rc == 0) {
+		rc = TSS_TPM2B_Marshalu(&source->b, written, buffer, size);
+	}
+	return rc;
+}
+
+TPM_RC
+TSS_TPM2B_RAINBOW_SECRET_KEY_Marshalu(const TPM2B_RAINBOW_SECRET_KEY *source, UINT32 *written, BYTE **buffer, uint32_t *size)
+{
+	TPM_RC rc = 0;
+	if (rc == 0) {
+		rc = TSS_TPM2B_Marshalu(&source->b, written, buffer, size);
+	}
+	return rc;
+}
+
+TPM_RC
+TSS_TPM2B_RAINBOW_SIGNED_MESSAGE_Marshalu(const TPM2B_RAINBOW_SIGNED_MESSAGE *source, UINT32 *written, BYTE **buffer, uint32_t *size)
+{
+	TPM_RC rc = 0;
+	if (rc == 0) {
+		rc = TSS_TPM2B_Marshalu(&source->b, written, buffer, size);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
 /*****************************************************************************/
 
 

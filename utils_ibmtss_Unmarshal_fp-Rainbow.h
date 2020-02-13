@@ -606,7 +606,7 @@ extern "C" {
     /*****************************************************************************/
 
 	/*****************************************************************************/
-	/*                             Sphincs+ Mods                                */
+	/*                             Sphincs+ Mods                                 */
 	/*****************************************************************************/
 	TPM_RC
 		TSS_TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Unmarshalu(TPM2B_SPHINCS_PLUS_PUBLIC_KEY *target, BYTE **buffer, uint32_t *size);
@@ -625,7 +625,30 @@ extern "C" {
 	TPM_RC
 		TSS_TPMS_SIG_SCHEME_SPHINCS_PLUS_Unmarshalu(TPMS_SIG_SCHEME_SPHINCS_PLUS *target, BYTE **buffer, uint32_t *size);
 	/*****************************************************************************/
-	/*                             Sphincs+ Mods                                */
+	/*                             Sphincs+ Mods                                 */
+	/*****************************************************************************/
+
+	/*****************************************************************************/
+	/*                             Rainbow Mods                                  */
+	/*****************************************************************************/
+	TPM_RC
+		TSS_TPM2B_RAINBOW_PUBLIC_KEY_Unmarshalu(TPM2B_RAINBOW_PUBLIC_KEY *target, BYTE **buffer, uint32_t *size);
+	TPM_RC
+		TSS_TPM2B_RAINBOW_SECRET_KEY_Unmarshalu(TPM2B_RAINBOW_SECRET_KEY *target, BYTE **buffer, uint32_t *size);
+	TPM_RC
+		TSS_TPM2B_RAINBOW_SIGNED_MESSAGE_Unmarshalu(TPM2B_RAINBOW_SIGNED_MESSAGE *target, BYTE **buffer, uint32_t *size);
+	TPM_RC
+		TSS_TPMS_RAINBOW_PARMS_Unmarshalu(TPMS_RAINBOW_PARMS *target, BYTE **buffer, uint32_t *size);
+	TPM_RC
+		TSS_TPMI_ALG_RAINBOW_SCHEME_Unmarshalu(TPMI_ALG_RAINBOW_SCHEME *target, BYTE **buffer, uint32_t *size, BOOL allowNull);
+	TPM_RC
+		TSS_TPMT_RAINBOW_SCHEME_Unmarshalu(TPMT_RAINBOW_SCHEME *target, BYTE **buffer, uint32_t *size, BOOL allowNull);
+	TPM_RC
+		TSS_TPMS_SIGNATURE_RAINBOW_Unmarshalu(TPMS_SIGNATURE_RAINBOW *target, BYTE **buffer, uint32_t *size);
+	TPM_RC
+		TSS_TPMS_SIG_SCHEME_RAINBOW_Unmarshalu(TPMS_SIG_SCHEME_RAINBOW *target, BYTE **buffer, uint32_t *size);
+	/*****************************************************************************/
+	/*                             Rainbow Mods                                  */
 	/*****************************************************************************/
 
     /* These functions are deprecated.  They were adapted from the TPM side, but the signed size

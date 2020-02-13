@@ -1,4 +1,0 @@
-130a131,133
-> #if ALG_SPHINCS_PLUS
-> #include "CryptSphincsPlus_fp.h"
-> #endif

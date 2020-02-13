@@ -619,7 +619,7 @@ extern "C" {
     /*                                LDAA Mods                                  */
     /*****************************************************************************/
 
-	 /*****************************************************************************/
+	/*****************************************************************************/
 	/*                             Sphincs+ Mods                                 */
 	/*****************************************************************************/
 	TPM_RC
@@ -643,6 +643,32 @@ extern "C" {
 		TSS_TPMT_SPHINCS_PLUS_SCHEME_Marshalu(const TPMT_SPHINCS_PLUS_SCHEME *source, UINT32 *written, BYTE **buffer, uint32_t *size);
 	/*****************************************************************************/
 	/*                             Sphincs+ Mods                                 */
+	/*****************************************************************************/
+
+	/*****************************************************************************/
+	/*                             Rainbow Mods                                 */
+	/*****************************************************************************/
+	TPM_RC
+		TSS_TPM2B_RAINBOW_PUBLIC_KEY_Marshalu(const TPM2B_RAINBOW_PUBLIC_KEY *source, UINT32 *written, BYTE **buffer, uint32_t *size);
+	TPM_RC
+		TSS_TPM2B_RAINBOW_SECRET_KEY_Marshalu(const TPM2B_RAINBOW_SECRET_KEY *source, UINT32 *written, BYTE **buffer, uint32_t *size);
+	TPM_RC
+		TSS_TPM2B_RAINBOW_SIGNED_MESSAGE_Marshalu(const TPM2B_RAINBOW_SIGNED_MESSAGE *source, UINT32 *written, BYTE **buffer, uint32_t *size);
+
+	TPM_RC
+		TSS_TPMS_RAINBOW_PARMS_Marshalu(const TPMS_RAINBOW_PARMS *source, UINT32 *written, BYTE **buffer, uint32_t *size);
+	TPM_RC
+		TSS_TPMS_SIG_SCHEME_RAINBOW_Marshalu(const TPMS_SIG_SCHEME_RAINBOW *source, UINT32 *written, BYTE **buffer, uint32_t *size);
+	TPM_RC
+		TSS_TPMS_SIGNATURE_RAINBOW_Marshalu(const TPMS_SIGNATURE_RAINBOW *source, UINT32 *written, BYTE **buffer, uint32_t *size);
+	UINT16
+		TPMT_RAINBOW_SCHEME_Marshal(TPMT_RAINBOW_SCHEME *source, BYTE **buffer, uint32_t *size);
+	TPM_RC
+		TSS_TPMI_ALG_RAINBOW_SCHEME_Marshalu(const TPMI_ALG_RAINBOW_SCHEME *source, UINT32 *written, BYTE **buffer, uint32_t *size);
+	TPM_RC
+		TSS_TPMT_RAINBOW_SCHEME_Marshalu(const TPMT_RAINBOW_SCHEME *source, UINT32 *written, BYTE **buffer, uint32_t *size);
+	/*****************************************************************************/
+	/*                             Rainbow Mods                                  */
 	/*****************************************************************************/
 
     /* Deprecated functions */

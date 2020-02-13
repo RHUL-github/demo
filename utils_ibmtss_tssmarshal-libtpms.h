@@ -619,32 +619,6 @@ extern "C" {
     /*                                LDAA Mods                                  */
     /*****************************************************************************/
 
-	 /*****************************************************************************/
-	/*                             Sphincs+ Mods                                 */
-	/*****************************************************************************/
-	TPM_RC
-		TSS_TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Marshalu(const TPM2B_SPHINCS_PLUS_PUBLIC_KEY *source, UINT32 *written, BYTE **buffer, uint32_t *size);
-	TPM_RC
-		TSS_TPM2B_SPHINCS_PLUS_SECRET_KEY_Marshalu(const TPM2B_SPHINCS_PLUS_SECRET_KEY *source, UINT32 *written, BYTE **buffer, uint32_t *size);
-	TPM_RC
-		TSS_TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE_Marshalu(const TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE *source, UINT32 *written, BYTE **buffer, uint32_t *size);
-
-	TPM_RC
-		TSS_TPMS_SPHINCS_PLUS_PARMS_Marshalu(const TPMS_SPHINCS_PLUS_PARMS *source, UINT32 *written, BYTE **buffer, uint32_t *size);
-	TPM_RC
-		TSS_TPMS_SIG_SCHEME_SPHINCS_PLUS_Marshalu(const TPMS_SIG_SCHEME_SPHINCS_PLUS *source, UINT32 *written, BYTE **buffer, uint32_t *size);
-	TPM_RC
-		TSS_TPMS_SIGNATURE_SPHINCS_PLUS_Marshalu(const TPMS_SIGNATURE_SPHINCS_PLUS *source, UINT32 *written, BYTE **buffer, uint32_t *size);
-	UINT16
-		TPMT_SPHINCS_PLUS_SCHEME_Marshal(TPMT_SPHINCS_PLUS_SCHEME *source, BYTE **buffer, uint32_t *size);
-	TPM_RC
-		TSS_TPMI_ALG_SPHINCS_PLUS_SCHEME_Marshalu(const TPMI_ALG_SPHINCS_PLUS_SCHEME *source, UINT32 *written, BYTE **buffer, uint32_t *size);
-	TPM_RC
-		TSS_TPMT_SPHINCS_PLUS_SCHEME_Marshalu(const TPMT_SPHINCS_PLUS_SCHEME *source, UINT32 *written, BYTE **buffer, uint32_t *size);
-	/*****************************************************************************/
-	/*                             Sphincs+ Mods                                 */
-	/*****************************************************************************/
-
     /* Deprecated functions */
 
     TPM_RC

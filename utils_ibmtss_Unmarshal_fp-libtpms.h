@@ -605,29 +605,6 @@ extern "C" {
     /*                                LDAA Mods                                  */
     /*****************************************************************************/
 
-	/*****************************************************************************/
-	/*                             Sphincs+ Mods                                */
-	/*****************************************************************************/
-	TPM_RC
-		TSS_TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Unmarshalu(TPM2B_SPHINCS_PLUS_PUBLIC_KEY *target, BYTE **buffer, uint32_t *size);
-	TPM_RC
-		TSS_TPM2B_SPHINCS_PLUS_SECRET_KEY_Unmarshalu(TPM2B_SPHINCS_PLUS_SECRET_KEY *target, BYTE **buffer, uint32_t *size);
-	TPM_RC
-		TSS_TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE_Unmarshalu(TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE *target, BYTE **buffer, uint32_t *size);
-	TPM_RC
-		TSS_TPMS_SPHINCS_PLUS_PARMS_Unmarshalu(TPMS_SPHINCS_PLUS_PARMS *target, BYTE **buffer, uint32_t *size);
-	TPM_RC
-		TSS_TPMI_ALG_SPHINCS_PLUS_SCHEME_Unmarshalu(TPMI_ALG_SPHINCS_PLUS_SCHEME *target, BYTE **buffer, uint32_t *size, BOOL allowNull);
-	TPM_RC
-		TSS_TPMT_SPHINCS_PLUS_SCHEME_Unmarshalu(TPMT_SPHINCS_PLUS_SCHEME *target, BYTE **buffer, uint32_t *size, BOOL allowNull);
-	TPM_RC
-		TSS_TPMS_SIGNATURE_SPHINCS_PLUS_Unmarshalu(TPMS_SIGNATURE_SPHINCS_PLUS *target, BYTE **buffer, uint32_t *size);
-	TPM_RC
-		TSS_TPMS_SIG_SCHEME_SPHINCS_PLUS_Unmarshalu(TPMS_SIG_SCHEME_SPHINCS_PLUS *target, BYTE **buffer, uint32_t *size);
-	/*****************************************************************************/
-	/*                             Sphincs+ Mods                                */
-	/*****************************************************************************/
-
     /* These functions are deprecated.  They were adapted from the TPM side, but the signed size
        caused static analysis tool warnings. */
 

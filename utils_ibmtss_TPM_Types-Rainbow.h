@@ -1769,6 +1769,60 @@ typedef union {
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
 
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+/* Rainbow Signature Size */
+#define RBW_BYTES 184
+/* Rainbow Public Key Size */
+#define RBW_PK_BYTES 149
+/* Rainbow Secret Key Size */
+#define RBW_SK_BYTES 93
+/* Rainbow Message Size */
+#define RBW_MLEN_BYTES 3300
+/* Rainbow Signed Message Size */
+#define RBW_SMLEN_BYTES (RBW_BYTES + RBW_MLEN_BYTES)
+
+#define MAX_RAINBOW_PUBLIC_KEY_SIZE RBW_PK_BYTES
+#define MAX_RAINBOW_SECRET_KEY_SIZE RBW_SK_BYTES
+#define MAX_RAINBOW_MESSAGE_SIZE RBW_MLEN_BYTES
+#define MAX_RAINBOW_SIGNED_MESSAGE_SIZE RBW_SMLEN_BYTES
+
+typedef union {
+	struct {
+		UINT32                  size;
+		BYTE                    buffer[MAX_RAINBOW_PUBLIC_KEY_SIZE];
+	}            t;
+	TPM2B        b;
+} TPM2B_RAINBOW_PUBLIC_KEY;
+
+typedef union {
+	struct {
+		UINT32                  size;
+		BYTE                    buffer[MAX_RAINBOW_SECRET_KEY_SIZE];
+	}            t;
+	TPM2B        b;
+} TPM2B_RAINBOW_SECRET_KEY;
+
+typedef union {
+	struct {
+		UINT32                  size;
+		BYTE                    buffer[MAX_RAINBOW_SIGNED_MESSAGE_SIZE];
+	}            t;
+	TPM2B        b;
+} TPM2B_RAINBOW_SIGNED_MESSAGE;
+
+typedef union {
+	struct {
+		UINT32                  size;
+		BYTE                    buffer[MAX_RAINBOW_MESSAGE_SIZE];
+	}            t;
+	TPM2B        b;
+} TPM2B_RAINBOW_MESSAGE;
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+
 typedef struct {
     UINT32    size;
     BYTE      buffer[sizeof(TPMU_HA) +	/* TPM2B_AUTH authValue */
@@ -2369,11 +2423,19 @@ typedef TPMS_SCHEME_HASH 	TPMS_SIG_SCHEME_DILITHIUM;
 /*****************************************************************************/
 
 /*****************************************************************************/
-/*                             Sphincs+ Mods                                */
+/*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
 typedef TPMS_SCHEME_HASH 	TPMS_SIG_SCHEME_SPHINCS_PLUS;
 /*****************************************************************************/
-/*                             Sphincs+ Mods                                */
+/*                             Sphincs+ Mods                                 */
+/*****************************************************************************/
+
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+typedef TPMS_SCHEME_HASH 	TPMS_SIG_SCHEME_RAINBOW;
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
 /*****************************************************************************/
 
 /*****************************************************************************/
@@ -2406,6 +2468,9 @@ typedef union {
 #endif
 #ifdef TPM_ALG_SPHINCS_PLUS
 	TPMS_SIG_SCHEME_SPHINCS_PLUS	sphincsplus;
+#endif
+#ifdef TPM_ALG_RAINBOW
+	TPMS_SIG_SCHEME_RAINBOW		rainbow;
 #endif
 #ifdef TPM_ALG_RSASSA
     TPMS_SIG_SCHEME_RSASSA	rsassa;		/* TPM_ALG_RSASSA	the RSASSA-PKCS1v1_5 scheme */
@@ -2503,6 +2568,9 @@ typedef union {
 #endif
 #ifdef TPM_ALG_SPHINCS_PLUS
 	TPMS_SIG_SCHEME_SPHINCS_PLUS	sphincsplus;	 /* TPM_ALG_SPHINCS_PLUS */
+#endif
+#ifdef TPM_ALG_RAINBOW
+	TPMS_SIG_SCHEME_RAINBOW		rainbow;	 /* TPM_ALG_RAINBOW */
 #endif
 #ifdef TPM_ALG_RSASSA
     TPMS_SIG_SCHEME_RSASSA	rsassa;		     /* TPM_ALG_RSASSA */
@@ -2698,6 +2766,18 @@ typedef struct {
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
 
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+typedef struct {
+	TPMI_ALG_HASH		            hash;	/* the hash algorithm used to digest the message TPM_ALG_NULL is not allowed. */
+	TPM2B_RAINBOW_SIGNED_MESSAGE	sig;
+	BYTE                            mode;
+} TPMS_SIGNATURE_RAINBOW;
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+
 /* Table 168 - Definition of Types for {RSA} Signature */
 
 typedef TPMS_SIGNATURE_RSA	TPMS_SIGNATURE_RSASSA;
@@ -2726,6 +2806,9 @@ typedef union {
 #endif
 #ifdef TPM_ALG_SPHINCS_PLUS
 	TPMS_SIGNATURE_SPHINCS_PLUS sphincsplus;		/* TPM_ALG_SPHINCS_PLUS */
+#endif
+#ifdef TPM_ALG_RAINBOW
+	TPMS_SIGNATURE_RAINBOW	rainbow;		/* TPM_ALG_RAINBOW */
 #endif
 #ifdef TPM_ALG_QTESLA
     TPMS_SIGNATURE_QTESLA    qtesla;		/* TPM_ALG_QTESLA */
@@ -2823,6 +2906,9 @@ typedef union {
 #endif
 #ifdef TPM_ALG_SPHINCS_PLUS
 	TPM2B_SPHINCS_PLUS_PUBLIC_KEY sphincsplus;		/* TPM_ALG_SPHINCS_PLUS */
+#endif
+#ifdef TPM_ALG_RAINBOW
+	TPM2B_RAINBOW_PUBLIC_KEY rainbow;		/* TPM_ALG_RAINBOW */
 #endif
 #ifdef TPM_ALG_KYBER
     TPM2B_KYBER_PUBLIC_KEY kyber;		/* TPM_ALG_KYBER */
@@ -2985,6 +3071,24 @@ typedef struct {
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
 
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+typedef  TPM_ALG_ID         TPMI_ALG_RAINBOW_SCHEME;
+typedef struct {
+	TPMI_ALG_RAINBOW_SCHEME scheme;
+	TPMU_ASYM_SCHEME          details;
+} TPMT_RAINBOW_SCHEME;
+
+typedef struct {
+	TPMT_SYM_DEF_OBJECT	  symmetric;
+	TPMT_RAINBOW_SCHEME scheme;
+	BYTE                  mode;
+} TPMS_RAINBOW_PARMS;
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+
 /* Table 181 - Definition of TPMU_PUBLIC_PARMS Union <IN/OUT, S> */
 
 typedef union {
@@ -3008,6 +3112,9 @@ typedef union {
 #endif
 #ifdef TPM_ALG_SPHINCS_PLUS
 	TPMS_SPHINCS_PLUS_PARMS	sphincsplusDetail;	/* TPM_ALG_SPHINCS_PLUS */
+#endif
+#ifdef TPM_ALG_RAINBOW
+	TPMS_RAINBOW_PARMS	rainbowDetail;	/* TPM_ALG_RAINBOW */
 #endif
 #ifdef TPM_ALG_KYBER
     TPMS_KYBER_PARMS	    kyberDetail;	/* TPM_ALG_KYBER */
@@ -3073,6 +3180,9 @@ typedef union {
 #endif
 #ifdef TPM_ALG_SPHINCS_PLUS
 	TPM2B_SPHINCS_PLUS_SECRET_KEY	sphincsplus;
+#endif
+#ifdef TPM_ALG_RAINBOW
+	TPM2B_RAINBOW_SECRET_KEY	rainbow;
 #endif
 #ifdef TPM_ALG_KYBER
     TPM2B_KYBER_SECRET_KEY	    kyber;

@@ -4693,22 +4693,6 @@ TSS_TPMS_SIG_SCHEME_LDAA_Marshalu(const TPMS_SIG_SCHEME_LDAA *source, UINT32 *wr
 /*                                LDAA Mods                                  */
 /*****************************************************************************/
 
-/*****************************************************************************/
-/*                             Sphincs+ Mods                                 */
-/*****************************************************************************/
-TPM_RC
-TSS_TPMS_SIG_SCHEME_SPHINCS_PLUS_Marshalu(const TPMS_SIG_SCHEME_SPHINCS_PLUS *source, UINT32 *written, BYTE **buffer, uint32_t *size)
-{
-	TPM_RC rc = 0;
-	if (rc == 0) {
-		rc = TSS_TPMS_SCHEME_HASH_Marshalu(source, written, buffer, size);
-	}
-	return rc;
-}
-/*****************************************************************************/
-/*                             Sphincs+ Mods                                 */
-/*****************************************************************************/
-
 /* Table 143 - Definition of {ECC} Types for ECC Signature Schemes */
 
 TPM_RC
@@ -4785,13 +4769,6 @@ TSS_TPMU_SIG_SCHEME_Marshalu(const TPMU_SIG_SCHEME *source, UINT32 *written, BYT
             rc = TSS_TPMS_SIG_SCHEME_DILITHIUM_Marshalu(&source->dilithium, written, buffer, size);
         }
         break;
-#endif
-#ifdef TPM_ALG_SPHINCS_PLUS
-	  case TPM_ALG_SPHINCS_PLUS:
-		  if (rc == 0) {
-			  rc = TSS_TPMS_SIG_SCHEME_SPHINCS_PLUS_Marshalu(&source->sphincsplus, written, buffer, size);
-		  }
-		  break;
 #endif
 #ifdef TPM_ALG_ECDAA
       case TPM_ALG_ECDAA:
@@ -5036,13 +5013,6 @@ TSS_TPMU_ASYM_SCHEME_Marshalu(const TPMU_ASYM_SCHEME  *source, UINT32 *written, 
         }
         break;
 #endif
-#ifdef TPM_ALG_SPHINCS_PLUS
-	  case TPM_ALG_SPHINCS_PLUS:
-		  if (rc == 0) {
-			  rc = TSS_TPMS_SIG_SCHEME_SPHINCS_PLUS_Marshalu(&source->sphincsplus, written, buffer, size);
-		  }
-		  break;
-#endif
 #ifdef TPM_ALG_ECDSA
       case TPM_ALG_ECDSA:
         if (rc == 0) {
@@ -5223,22 +5193,6 @@ TSS_TPMI_ALG_LDAA_SCHEME_Marshalu(const TPMI_ALG_LDAA_SCHEME *source, UINT32 *wr
 /*                                LDAA Mods                                  */
 /*****************************************************************************/
 
-/*****************************************************************************/
-/*                             Sphincs+ Mods                                 */
-/*****************************************************************************/
-TPM_RC
-TSS_TPMI_ALG_SPHINCS_PLUS_SCHEME_Marshalu(const TPMI_ALG_SPHINCS_PLUS_SCHEME *source, UINT32 *written, BYTE **buffer, uint32_t *size)
-{
-	TPM_RC rc = 0;
-	if (rc == 0) {
-		rc = TSS_TPM_ALG_ID_Marshalu(source, written, buffer, size);
-	}
-	return rc;
-}
-/*****************************************************************************/
-/*                             Sphincs+ Mods                                 */
-/*****************************************************************************/
-
 TPM_RC
 TSS_TPMI_ALG_RSA_SCHEME_Marshalu(const TPMI_ALG_RSA_SCHEME *source, UINT32 *written, BYTE **buffer, uint32_t *size)
 {
@@ -5335,25 +5289,6 @@ TSS_TPMT_LDAA_SCHEME_Marshalu(const TPMT_LDAA_SCHEME *source, UINT32 *written, B
 }
 /*****************************************************************************/
 /*                                LDAA Mods                                  */
-/*****************************************************************************/
-
-/*****************************************************************************/
-/*                             Sphincs+ Mods                                */
-/*****************************************************************************/
-TPM_RC
-TSS_TPMT_SPHINCS_PLUS_SCHEME_Marshalu(const TPMT_SPHINCS_PLUS_SCHEME *source, UINT32 *written, BYTE **buffer, uint32_t *size)
-{
-	TPM_RC rc = 0;
-	if (rc == 0) {
-		rc = TSS_TPMI_ALG_SPHINCS_PLUS_SCHEME_Marshalu(&source->scheme, written, buffer, size);
-	}
-	if (rc == 0) {
-		rc = TSS_TPMU_ASYM_SCHEME_Marshalu(&source->details, written, buffer, size, source->scheme);
-	}
-	return rc;
-}
-/*****************************************************************************/
-/*                             Sphincs+ Mods                                */
 /*****************************************************************************/
 
 /* Table 156 - Definition of (TPM_ALG_ID) {RSA} TPMI_ALG_RSA_DECRYPT Type */
@@ -5652,28 +5587,6 @@ TSS_TPMS_SIGNATURE_QTESLA_Marshalu(const TPMS_SIGNATURE_QTESLA *source, UINT32 *
 /*                               qTesla Mods                                 */
 /*****************************************************************************/
 
-/*****************************************************************************/
-/*                             Sphincs+ Mods                                 */
-/*****************************************************************************/
-TPM_RC
-TSS_TPMS_SIGNATURE_SPHINCS_PLUS_Marshalu(const TPMS_SIGNATURE_SPHINCS_PLUS *source, UINT32 *written, BYTE **buffer, uint32_t *size)
-{
-	TPM_RC rc = 0;
-	if (rc == 0) {
-		rc = TSS_TPMI_ALG_HASH_Marshalu(&source->hash, written, buffer, size);
-	}
-	if (rc == 0) {
-		rc = TSS_TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE_Marshalu(&source->sig, written, buffer, size);
-	}
-	if (rc == 0) {
-		rc = TSS_UINT8_Marshalu(&source->mode, written, buffer, size);
-	}
-	return rc;
-}
-/*****************************************************************************/
-/*                             Sphincs+ Mods                                 */
-/*****************************************************************************/
-
 TPM_RC
 TSS_TPMS_SIGNATURE_ECDSA_Marshalu(const TPMS_SIGNATURE_ECDSA *source, UINT32 *written, BYTE **buffer, uint32_t *size)
 {
@@ -5741,13 +5654,6 @@ TSS_TPMU_SIGNATURE_Marshalu(const TPMU_SIGNATURE *source, UINT32 *written, BYTE 
             rc = TSS_TPMS_SIGNATURE_DILITHIUM_Marshalu(&source->dilithium, written, buffer, size);
         }
         break;
-#endif
-#ifdef TPM_ALG_SPHINCS_PLUS
-	  case TPM_ALG_SPHINCS_PLUS:
-		  if (rc == 0) {
-			  rc = TSS_TPMS_SIGNATURE_SPHINCS_PLUS_Marshalu(&source->sphincsplus, written, buffer, size);
-		  }
-		  break;
 #endif
 #ifdef TPM_ALG_RSAPSS
       case TPM_ALG_RSAPSS:
@@ -5865,13 +5771,6 @@ TSS_TPMU_PUBLIC_ID_Marshalu(const TPMU_PUBLIC_ID *source, UINT32 *written, BYTE 
             rc = TSS_TPM2B_DILITHIUM_PUBLIC_KEY_Marshalu(&source->dilithium, written, buffer, size);
         }
         break;
-#endif
-#ifdef TPM_ALG_SPHINCS_PLUS
-	  case TPM_ALG_SPHINCS_PLUS:
-		  if (rc == 0) {
-			  rc = TSS_TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Marshalu(&source->sphincsplus, written, buffer, size);
-		  }
-		  break;
 #endif
 #ifdef TPM_ALG_KYBER
       case TPM_ALG_KYBER:
@@ -6079,28 +5978,6 @@ TSS_TPMS_LDAA_PARMS_Marshalu(const TPMS_LDAA_PARMS *source, UINT32 *written, BYT
 /*                                 LDAA Mods                                 */
 /*****************************************************************************/
 
-/*****************************************************************************/
-/*                             Sphincs+ Mods                                 */
-/*****************************************************************************/
-TPM_RC
-TSS_TPMS_SPHINCS_PLUS_PARMS_Marshalu(const TPMS_SPHINCS_PLUS_PARMS *source, UINT32 *written, BYTE **buffer, uint32_t *size)
-{
-	TPM_RC rc = 0;
-	if (rc == 0) {
-		rc = TSS_TPMT_SYM_DEF_OBJECT_Marshalu(&source->symmetric, written, buffer, size);
-	}
-	if (rc == 0) {
-		rc = TSS_TPMT_SPHINCS_PLUS_SCHEME_Marshalu(&source->scheme, written, buffer, size);
-	}
-	if (rc == 0) {
-		rc = TSS_UINT8_Marshalu(&source->mode, written, buffer, size);
-	}
-	return rc;
-}
-/*****************************************************************************/
-/*                             Sphincs+ Mods                                 */
-/*****************************************************************************/
-
 /* Table 181 - Definition of {ECC} TPMS_ECC_PARMS Structure */
 
 TPM_RC
@@ -6156,13 +6033,6 @@ TSS_TPMU_PUBLIC_PARMS_Marshalu(const TPMU_PUBLIC_PARMS *source, UINT32 *written,
             rc = TSS_TPMS_DILITHIUM_PARMS_Marshalu(&source->dilithiumDetail, written, buffer, size);
         }
         break;
-#endif
-#ifdef TPM_ALG_SPHINCS_PLUS
-	  case TPM_ALG_SPHINCS_PLUS:
-		  if (rc == 0) {
-			  rc = TSS_TPMS_SPHINCS_PLUS_PARMS_Marshalu(&source->sphincsplusDetail, written, buffer, size);
-		  }
-		  break;
 #endif
 #ifdef TPM_ALG_KYBER
       case TPM_ALG_KYBER:
@@ -6333,13 +6203,6 @@ TSS_TPMU_SENSITIVE_COMPOSITE_Marshalu(const TPMU_SENSITIVE_COMPOSITE *source, UI
             rc = TSS_TPM2B_DILITHIUM_SECRET_KEY_Marshalu(&source->dilithium, written, buffer, size);
         }
         break;
-#endif
-#ifdef TPM_ALG_SPHINCS_PLUS
-	  case TPM_ALG_SPHINCS_PLUS:
-		  if (rc == 0) {
-			  rc = TSS_TPM2B_SPHINCS_PLUS_SECRET_KEY_Marshalu(&source->sphincsplus, written, buffer, size);
-		  }
-		  break;
 #endif
 #ifdef TPM_ALG_KYBER
       case TPM_ALG_KYBER:
@@ -6938,43 +6801,6 @@ TSS_TPM2B_LDAA_SIGN_GROUP_Marshalu(const TPM2B_LDAA_SIGN_GROUP *source, UINT32 *
 /*****************************************************************************/
 /*                               LDAA Mods                                   */
 /*****************************************************************************/
-
-/*****************************************************************************/
-/*                             Sphincs+ Mods                                 */
-/*****************************************************************************/
-TPM_RC
-TSS_TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Marshalu(const TPM2B_SPHINCS_PLUS_PUBLIC_KEY *source, UINT32 *written, BYTE **buffer, uint32_t *size)
-{
-	TPM_RC rc = 0;
-	if (rc == 0) {
-		rc = TSS_TPM2B_Marshalu(&source->b, written, buffer, size);
-	}
-	return rc;
-}
-
-TPM_RC
-TSS_TPM2B_SPHINCS_PLUS_SECRET_KEY_Marshalu(const TPM2B_SPHINCS_PLUS_SECRET_KEY *source, UINT32 *written, BYTE **buffer, uint32_t *size)
-{
-	TPM_RC rc = 0;
-	if (rc == 0) {
-		rc = TSS_TPM2B_Marshalu(&source->b, written, buffer, size);
-	}
-	return rc;
-}
-
-TPM_RC
-TSS_TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE_Marshalu(const TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE *source, UINT32 *written, BYTE **buffer, uint32_t *size)
-{
-	TPM_RC rc = 0;
-	if (rc == 0) {
-		rc = TSS_TPM2B_Marshalu(&source->b, written, buffer, size);
-	}
-	return rc;
-}
-/*****************************************************************************/
-/*                             Sphincs+ Mods                                 */
-/*****************************************************************************/
-
 
 /* Deprecated functions that use a sized value for the size parameter.  The recommended functions
    use an unsigned value.

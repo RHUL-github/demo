@@ -1284,6 +1284,9 @@ TPMI_ALG_SIG_SCHEME_Unmarshal(TPMI_ALG_SIG_SCHEME *target, BYTE **buffer, UINT32
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 #endif
+#if ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+#endif
 #if ALG_LDAA
 	  case TPM_ALG_LDAA:
 #endif
@@ -2987,6 +2990,22 @@ TPMS_SIG_SCHEME_SPHINCS_PLUS_Unmarshal(TPMS_SIG_SCHEME_SPHINCS_PLUS *target, BYT
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TPMS_SIG_SCHEME_RAINBOW_Unmarshal(TPMS_SIG_SCHEME_RAINBOW *target, BYTE **buffer, UINT32 *size)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TPMS_SCHEME_HASH_Unmarshal(target, buffer, size);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
 
 TPM_RC
 TPMS_SIG_SCHEME_RSAPSS_Unmarshal(TPMS_SIG_SCHEME_RSAPSS *target, BYTE **buffer, UINT32 *size)
@@ -3085,6 +3104,11 @@ TPMU_SIG_SCHEME_Unmarshal(TPMU_SIG_SCHEME *target, BYTE **buffer, UINT32 *size, 
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 		  rc = TPMS_SIG_SCHEME_SPHINCS_PLUS_Unmarshal(&target->sphincsplus, buffer, size);
+		  break;
+#endif
+#if ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  rc = TPMS_SIG_SCHEME_RAINBOW_Unmarshal(&target->rainbow, buffer, size);
 		  break;
 #endif
 #if ALG_RSASSA
@@ -3407,6 +3431,11 @@ TPMU_ASYM_SCHEME_Unmarshal(TPMU_ASYM_SCHEME *target, BYTE **buffer, UINT32 *size
 		  rc = TPMS_SIG_SCHEME_SPHINCS_PLUS_Unmarshal(&target->sphincsplus, buffer, size);
 		  break;
 #endif
+#if ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  rc = TPMS_SIG_SCHEME_RAINBOW_Unmarshal(&target->rainbow, buffer, size);
+		  break;
+#endif
 #if ALG_LDAA
       case TPM_ALG_LDAA:
         rc = TPMS_SIG_SCHEME_LDAA_Unmarshal(&target->ldaa, buffer, size);
@@ -3585,7 +3614,7 @@ TPMT_LDAA_SCHEME_Unmarshal(TPMT_LDAA_SCHEME *target, BYTE **buffer, UINT32 *size
 /*                               LDAA Mods                                   */
 /*****************************************************************************/
 /*****************************************************************************/
-/*                             Sphincs+ Mods                                */
+/*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
 TPM_RC
 TPMT_SPHINCS_PLUS_SCHEME_Unmarshal(TPMT_SPHINCS_PLUS_SCHEME *target, BYTE **buffer, UINT32 *size, BOOL allowNull)
@@ -3601,7 +3630,26 @@ TPMT_SPHINCS_PLUS_SCHEME_Unmarshal(TPMT_SPHINCS_PLUS_SCHEME *target, BYTE **buff
 	return rc;
 }
 /*****************************************************************************/
-/*                             Sphincs+ Mods                                */
+/*                             Sphincs+ Mods                                 */
+/*****************************************************************************/
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TPMT_RAINBOW_SCHEME_Unmarshal(TPMT_RAINBOW_SCHEME *target, BYTE **buffer, UINT32 *size, BOOL allowNull)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TPMI_ALG_RAINBOW_SCHEME_Unmarshal(&target->scheme, buffer, size, allowNull);
+	}
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TPMU_ASYM_SCHEME_Unmarshal(&target->details, buffer, size, target->scheme);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
 /*****************************************************************************/
 
 /* Table 156 - Definition of (TPM_ALG_ID) {RSA} TPMI_ALG_RSA_DECRYPT Type */
@@ -3921,6 +3969,36 @@ TPMI_ALG_SPHINCS_PLUS_SCHEME_Unmarshal(TPMI_ALG_SPHINCS_PLUS_SCHEME *target, BYT
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TPMI_ALG_RAINBOW_SCHEME_Unmarshal(TPMI_ALG_RAINBOW_SCHEME *target, BYTE **buffer, UINT32 *size, BOOL allowNull)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TPM_ALG_ID_Unmarshal(target, buffer, size);
+	}
+	if (rc == TPM_RC_SUCCESS) {
+		switch (*target) {
+#if ALG_RAINBOW
+		case TPM_ALG_RAINBOW:
+#endif
+			break;
+		case TPM_ALG_NULL:
+			if (allowNull) {
+				break;
+			}
+		default:
+			rc = TPM_RC_SCHEME;
+		}
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
 
 /* Table 165 - Definition of {ECC} (TPM_ECC_CURVE) TPMI_ECC_CURVE Type */
 
@@ -4112,6 +4190,25 @@ TPMS_SIGNATURE_SPHINCS_PLUS_Unmarshal(TPMS_SIGNATURE_SPHINCS_PLUS *target, BYTE 
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TPMS_SIGNATURE_RAINBOW_Unmarshal(TPMS_SIGNATURE_RAINBOW *target, BYTE **buffer, UINT32 *size)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TPMI_ALG_HASH_Unmarshal(&target->hash, buffer, size, NO);
+	}
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TPM2B_RAINBOW_SIGNED_MESSAGE_Unmarshal(&target->sig, buffer, size);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
 
 
 /* Table 171 - Definition of Types for {ECC} TPMS_SIGNATURE_ECC */
@@ -4186,6 +4283,11 @@ TPMU_SIGNATURE_Unmarshal(TPMU_SIGNATURE *target, BYTE **buffer, UINT32 *size, UI
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 		  rc = TPMS_SIGNATURE_SPHINCS_PLUS_Unmarshal(&target->sphincsplus, buffer, size);
+		  break;
+#endif
+#if ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  rc = TPMS_SIGNATURE_RAINBOW_Unmarshal(&target->rainbow, buffer, size);
 		  break;
 #endif
 #if ALG_ECDSA
@@ -4277,6 +4379,9 @@ TPMI_ALG_PUBLIC_Unmarshal(TPMI_ALG_PUBLIC *target, BYTE **buffer, UINT32 *size)
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 #endif
+#if ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+#endif
 #if ALG_LDAA
 	  case TPM_ALG_LDAA:
 #endif
@@ -4330,6 +4435,11 @@ TPMU_PUBLIC_ID_Unmarshal(TPMU_PUBLIC_ID *target, BYTE **buffer, UINT32 *size, UI
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 		  rc = TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Unmarshal(&target->sphincsplus, buffer, size);
+		  break;
+#endif
+#if ALG_RAINBOW
+	  case TPM_ALG_RAINBOW
+		  rc = TPM2B_RAINBOW_PUBLIC_KEY_Unmarshal(&target->rainbow, buffer, size);
 		  break;
 #endif
 #if ALG_KYBER
@@ -4491,6 +4601,25 @@ TPMS_SPHINCS_PLUS_PARMS_Unmarshal(TPMS_SPHINCS_PLUS_PARMS *target, BYTE **buffer
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TPMS_RAINBOW_PARMS_Unmarshal(TPMS_RAINBOW_PARMS *target, BYTE **buffer, UINT32 *size)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TPMT_SYM_DEF_OBJECT_Unmarshal(&target->symmetric, buffer, size, YES);
+	}
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TPMT_RAINBOW_SCHEME_Unmarshal(&target->scheme, buffer, size, YES);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                 */
+/*****************************************************************************/
 
 /* Table 181 - Definition of {ECC} TPMS_ECC_PARMS Structure */
 
@@ -4545,6 +4674,11 @@ TPMU_PUBLIC_PARMS_Unmarshal(TPMU_PUBLIC_PARMS *target, BYTE **buffer, UINT32 *si
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 		  rc = TPMS_SPHINCS_PLUS_PARMS_Unmarshal(&target->sphincsplusDetail, buffer, size);
+		  break;
+#endif
+#if ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  rc = TPMS_RAINBOW_PARMS_Unmarshal(&target->rainbowDetail, buffer, size);
 		  break;
 #endif
 #if ALG_LDAA
@@ -4696,6 +4830,11 @@ TPMU_SENSITIVE_COMPOSITE_Unmarshal(TPMU_SENSITIVE_COMPOSITE *target, BYTE **buff
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 		  rc = TPM2B_SPHINCS_PLUS_SECRET_KEY_Unmarshal(&target->sphincsplus, buffer, size);
+		  break;
+#endif
+#if ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  rc = TPM2B_RAINBOW_SECRET_KEY_Unmarshal(&target->rainbow, buffer, size);
 		  break;
 #endif
 #if ALG_KYBER
@@ -5221,4 +5360,42 @@ TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE_Unmarshal(TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE *t
 }
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
+/*****************************************************************************/
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TPM2B_RAINBOW_PUBLIC_KEY_Unmarshal(TPM2B_RAINBOW_PUBLIC_KEY *target, BYTE **buffer, UINT32 *size)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TPM2B_Unmarshal(&target->b, MAX_CONTEXT_SIZE, buffer, size);
+	}
+	return rc;
+}
+
+TPM_RC
+TPM2B_RAINBOW_SECRET_KEY_Unmarshal(TPM2B_RAINBOW_SECRET_KEY *target, BYTE **buffer, UINT32 *size)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TPM2B_Unmarshal(&target->b, MAX_CONTEXT_SIZE, buffer, size);
+	}
+	return rc;
+}
+
+TPM_RC
+TPM2B_RAINBOW_SIGNED_MESSAGE_Unmarshal(TPM2B_RAINBOW_SIGNED_MESSAGE *target, BYTE **buffer, UINT32 *size)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TPM2B_Unmarshal(&target->b, MAX_CONTEXT_SIZE, buffer, size);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
 /*****************************************************************************/

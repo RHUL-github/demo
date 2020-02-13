@@ -275,6 +275,9 @@ void TSS_TPM_ALG_ID_Print(const char *string, TPM_ALG_ID source, unsigned int in
 	  case  ALG_SPHINCS_PLUS_VALUE:
 	printf("%s TPM_ALG_SPHINCS_PLUS\n", string);
 	break;
+	  case  ALG_RAINBOW_VALUE:
+	printf("%s TPM_ALG_RAINBOW\n", string);
+	break;
       default:
 	printf("%s TPM_ALG_ID value %04hx unknown\n", string, source);
     }
@@ -1853,6 +1856,15 @@ void TSS_TPMT_SPHINCS_PLUS_SCHEME_Print(TPMT_SPHINCS_PLUS_SCHEME *source, unsign
 	return;
 }
 
+void TSS_TPMT_RAINBOW_SCHEME_Print(TPMT_RAINBOW_SCHEME *source, unsigned int indent)
+{
+	TSS_TPM_ALG_ID_Print("scheme", source->scheme, indent + 2);
+	if (source->scheme != TPM_ALG_NULL) {
+		TSS_TPM_ALG_ID_Print("details", source->details.anySig.hashAlg, indent + 2);
+	}
+	return;
+}
+
 /* Table 177 - Definition of {ECC} TPMS_ALGORITHM_DETAIL_ECC Structure <OUT> */
 
 void TSS_TPMS_ALGORITHM_DETAIL_ECC_Print(TPMS_ALGORITHM_DETAIL_ECC *source, unsigned int indent)
@@ -1986,6 +1998,11 @@ void TSS_TPMI_ALG_PUBLIC_Print(const char *string, TPMI_ALG_PUBLIC source, unsig
 		  printf("%s TPM_ALG_SPHINCS_PLUS\n", string);
 		  break;
 #endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  printf("%s TPM_ALG_RAINBOW\n", string);
+		  break;
+#endif
 #ifdef TPM_ALG_SYMCIPHER
       case TPM_ALG_SYMCIPHER:
 	printf("%s TPM_ALG_SYMCIPHER\n", string);
@@ -2020,6 +2037,11 @@ void TSS_TPMU_PUBLIC_ID_Print(TPMU_PUBLIC_ID *source, TPMI_ALG_PUBLIC selector, 
 #ifdef TPM_ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 		  TSS_TPM2B_Print("TPM_ALG_SPHINCS_PLUS sphincsplus", indent, &source->sphincsplus.b);
+		  break;
+#endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  TSS_TPM2B_Print("TPM_ALG_RAINBOW rainbow", indent, &source->rainbow.b);
 		  break;
 #endif
 #ifdef TPM_ALG_RSA
@@ -2093,6 +2115,13 @@ void TSS_TPMS_SPHINCS_PLUS_PARMS_Print(TPMS_SPHINCS_PLUS_PARMS *source, unsigned
 	return;
 }
 
+void TSS_TPMS_RAINBOW_PARMS_Print(TPMS_RAINBOW_PARMS *source, unsigned int indent)
+{
+	TSS_TPMT_SYM_DEF_OBJECT_Print(&source->symmetric, indent);
+	TSS_TPMT_RAINBOW_SCHEME_Print(&source->scheme, indent);
+	return;
+}
+
 /* Table 192 - Definition of TPMU_PUBLIC_PARMS Union <IN/OUT, S> */
 
 void TSS_TPMU_PUBLIC_PARMS_Print(TPMU_PUBLIC_PARMS *source, uint32_t selector, unsigned int indent)
@@ -2132,6 +2161,13 @@ void TSS_TPMU_PUBLIC_PARMS_Print(TPMU_PUBLIC_PARMS *source, uint32_t selector, u
 		  TSS_TPMS_SPHINCS_PLUS_PARMS_Print(&source->sphincsplusDetail, indent);
 		  break;
 #endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  printf("%*s" "TPMU_PUBLIC_PARMS rainbowDetail\n", indent, "");
+		  TSS_TPMS_RAINBOW_PARMS_Print(&source->rainbowDetail, indent);
+		  break;
+#endif
+
       default:
 	printf("%*s" "TPMU_PUBLIC_PARMS: selector %04x not implemented\n", indent, "", selector);
     }

@@ -1304,6 +1304,9 @@ TSS_TPMI_ALG_SIG_SCHEME_Unmarshalu(TPMI_ALG_SIG_SCHEME *target, BYTE **buffer, u
 #if ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 #endif
+#if ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+#endif
 #ifdef TPM_ALG_RSAPSS
 	  case TPM_ALG_RSAPSS:
 #endif
@@ -2947,7 +2950,7 @@ TSS_TPMS_SIG_SCHEME_DILITHIUM_Unmarshalu(TPMS_SIG_SCHEME_DILITHIUM *target, BYTE
 /*****************************************************************************/
 
 /*****************************************************************************/
-/*                             Sphincs+ Mods                                */
+/*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
 TPM_RC
 TSS_TPMS_SIG_SCHEME_SPHINCS_PLUS_Unmarshalu(TPMS_SIG_SCHEME_SPHINCS_PLUS *target, BYTE **buffer, uint32_t *size)
@@ -2960,7 +2963,23 @@ TSS_TPMS_SIG_SCHEME_SPHINCS_PLUS_Unmarshalu(TPMS_SIG_SCHEME_SPHINCS_PLUS *target
 	return rc;
 }
 /*****************************************************************************/
-/*                             Sphincs+ Mods                                */
+/*                             Sphincs+ Mods                                 */
+/*****************************************************************************/
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TPMS_SIG_SCHEME_RAINBOW_Unmarshal(TPMS_SIG_SCHEME_RAINBOW *target, BYTE **buffer, UINT32 *size)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TPMS_SCHEME_HASH_Unmarshal(target, buffer, size);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
 /*****************************************************************************/
 
 /*****************************************************************************/
@@ -3044,6 +3063,11 @@ TSS_TPMU_SIG_SCHEME_Unmarshalu(TPMU_SIG_SCHEME *target, BYTE **buffer, uint32_t 
 #ifdef TPM_ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 		  rc = TSS_TPMS_SIG_SCHEME_SPHINCS_PLUS_Unmarshalu(&target->sphincsplus, buffer, size);
+		  break;
+#endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  rc = TSS_TPMS_SIG_SCHEME_RAINBOW_Unmarshalu(&target->rainbow, buffer, size);
 		  break;
 #endif
 #ifdef TPM_ALG_RSASSA
@@ -3370,6 +3394,11 @@ TSS_TPMU_ASYM_SCHEME_Unmarshalu(TPMU_ASYM_SCHEME *target, BYTE **buffer, uint32_
 #ifdef TPM_ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 		  rc = TSS_TPMS_SIG_SCHEME_SPHINCS_PLUS_Unmarshalu(&target->sphincsplus, buffer, size);
+		  break;
+#endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  rc = TSS_TPMS_SIG_SCHEME_RAINBOW_Unmarshalu(&target->rainbow, buffer, size);
 		  break;
 #endif
 #ifdef TPM_ALG_ECDAA
@@ -3748,6 +3777,38 @@ TSS_TPMI_ALG_SPHINCS_PLUS_SCHEME_Unmarshalu(TPMI_ALG_SPHINCS_PLUS_SCHEME *target
 /*****************************************************************************/
 
 /*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TSS_TPMI_ALG_RAINBOW_SCHEME_Unmarshalu(TPMI_ALG_RAINBOW_SCHEME *target, BYTE **buffer, uint32_t *size, BOOL allowNull)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TSS_TPM_ALG_ID_Unmarshalu(target, buffer, size);
+	}
+	if (rc == TPM_RC_SUCCESS) {
+		switch (*target) {
+#ifdef TPM_ALG_RAINBOW
+		case TPM_ALG_RAINBOW:
+			break;
+#endif
+		case TPM_ALG_NULL:
+			if (!allowNull) {
+				rc = TPM_RC_SCHEME;
+			}
+			break;
+		default:
+			rc = TPM_RC_SCHEME;
+		}
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+
+/*****************************************************************************/
 /*                                Kyber Mods                                 */
 /*****************************************************************************/
 TPM_RC
@@ -3981,6 +4042,26 @@ TSS_TPMT_SPHINCS_PLUS_SCHEME_Unmarshalu(TPMT_SPHINCS_PLUS_SCHEME *target, BYTE *
 /*****************************************************************************/
 
 /*****************************************************************************/
+/*                             Rainbow Mods                                 */
+/*****************************************************************************/
+TPM_RC
+TSS_TPMT_RAINBOW_SCHEME_Unmarshalu(TPMT_RAINBOW_SCHEME *target, BYTE **buffer, uint32_t *size, BOOL allowNull)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TSS_TPMI_ALG_RAINBOW_SCHEME_Unmarshalu(&target->scheme, buffer, size, allowNull);
+	}
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TSS_TPMU_ASYM_SCHEME_Unmarshalu(&target->details, buffer, size, target->scheme);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+
+/*****************************************************************************/
 /*                                Kyber Mods                                 */
 /*****************************************************************************/
 TPM_RC
@@ -4126,6 +4207,29 @@ TSS_TPMS_SIGNATURE_SPHINCS_PLUS_Unmarshalu(TPMS_SIGNATURE_SPHINCS_PLUS *target, 
 /*****************************************************************************/
 
 /*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TSS_TPMS_SIGNATURE_RAINBOW_Unmarshalu(TPMS_SIGNATURE_RAINBOW *target, BYTE **buffer, uint32_t *size)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TSS_TPMI_ALG_HASH_Unmarshalu(&target->hash, buffer, size, NO);
+	}
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TSS_TPM2B_RAINBOW_SIGNED_MESSAGE_Unmarshalu(&target->sig, buffer, size);
+	}
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TSS_UINT8_Unmarshalu(&target->mode, buffer, size);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+
+/*****************************************************************************/
 /*                               qTesla Mods                                 */
 /*****************************************************************************/
 TPM_RC
@@ -4263,6 +4367,11 @@ TSS_TPMU_SIGNATURE_Unmarshalu(TPMU_SIGNATURE *target, BYTE **buffer, uint32_t *s
 		  rc = TSS_TPMS_SIGNATURE_SPHINCS_PLUS_Unmarshalu(&target->sphincsplus, buffer, size);
 		  break;
 #endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  rc = TSS_TPMS_SIGNATURE_RAINBOW_Unmarshalu(&target->rainbow, buffer, size);
+		  break;
+#endif
 #ifdef TPM_ALG_QTESLA
 	  case TPM_ALG_QTESLA:
 		rc = TSS_TPMS_SIGNATURE_QTESLA_Unmarshalu(&target->qtesla, buffer, size);
@@ -4363,6 +4472,9 @@ TSS_TPMI_ALG_PUBLIC_Unmarshalu(TPMI_ALG_PUBLIC *target, BYTE **buffer, uint32_t 
 #ifdef TPM_ALG_SPHINCS_PLUS
 		  case TPM_ALG_SPHINCS_PLUS:
 #endif
+#ifdef TPM_ALG_RAINBOW
+		  case TPM_ALG_RAINBOW:
+#endif
 #ifdef TPM_ALG_LDAA
           case TPM_ALG_LDAA:
 #endif
@@ -4411,6 +4523,11 @@ TSS_TPMU_PUBLIC_ID_Unmarshalu(TPMU_PUBLIC_ID *target, BYTE **buffer, uint32_t *s
 #ifdef TPM_ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 		  rc = TSS_TPM2B_SPHINCS_PLUS_PUBLIC_KEY_Unmarshalu(&target->sphincsplus, buffer, size);
+		  break;
+#endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  rc = TSS_TPM2B_RAINBOW_PUBLIC_KEY_Unmarshalu(&target->rainbow, buffer, size);
 		  break;
 #endif
 #ifdef TPM_ALG_KYBER
@@ -4566,6 +4683,29 @@ TSS_TPMS_SPHINCS_PLUS_PARMS_Unmarshalu(TPMS_SPHINCS_PLUS_PARMS *target, BYTE **b
 /*****************************************************************************/
 
 /*****************************************************************************/
+/*                             Rainbow Mods                                 */
+/*****************************************************************************/
+TPM_RC
+TSS_TPMS_RAINBOW_PARMS_Unmarshalu(TPMS_RAINBOW_PARMS *target, BYTE **buffer, uint32_t *size)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TSS_TPMT_SYM_DEF_OBJECT_Unmarshalu(&target->symmetric, buffer, size, YES);
+	}
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TSS_TPMT_RAINBOW_SCHEME_Unmarshalu(&target->scheme, buffer, size, YES);
+	}
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TSS_UINT8_Unmarshalu(&target->mode, buffer, size);
+	}
+	return rc;
+}
+/*****************************************************************************/
+/*                             Rainbow Mods                                 */
+/*****************************************************************************/
+
+/*****************************************************************************/
 /*                                Kyber Mods                                 */
 /*****************************************************************************/
 TPM_RC
@@ -4707,6 +4847,11 @@ TSS_TPMU_PUBLIC_PARMS_Unmarshalu(TPMU_PUBLIC_PARMS *target, BYTE **buffer, uint3
 		  rc = TSS_TPMS_SPHINCS_PLUS_PARMS_Unmarshalu(&target->sphincsplusDetail, buffer, size);
 		  break;
 #endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  rc = TSS_TPMS_RAINBOW_PARMS_Unmarshalu(&target->rainbowDetail, buffer, size);
+		  break;
+#endif
 #ifdef TPM_ALG_LDAA
       case TPM_ALG_LDAA:
         rc = TSS_TPMS_LDAA_PARMS_Unmarshalu(&target->ldaaDetail, buffer, size);
@@ -4841,6 +4986,11 @@ TSS_TPMU_SENSITIVE_COMPOSITE_Unmarshalu(TPMU_SENSITIVE_COMPOSITE *target, BYTE *
 #ifdef TPM_ALG_SPHINCS_PLUS
 	  case TPM_ALG_SPHINCS_PLUS:
 		  rc = TSS_TPM2B_SPHINCS_PLUS_SECRET_KEY_Unmarshalu(&target->sphincsplus, buffer, size);
+		  break;
+#endif
+#ifdef TPM_ALG_RAINBOW
+	  case TPM_ALG_RAINBOW:
+		  rc = TSS_TPM2B_RAINBOW_SECRET_KEY_Unmarshalu(&target->rainbow, buffer, size);
 		  break;
 #endif
 #ifdef TPM_ALG_KYBER
@@ -5291,6 +5441,46 @@ TSS_TPM2B_SPHINCS_PLUS_SIGNED_MESSAGE_Unmarshalu(TPM2B_SPHINCS_PLUS_SIGNED_MESSA
 
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
+/*****************************************************************************/
+
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
+/*****************************************************************************/
+TPM_RC
+TSS_TPM2B_RAINBOW_PUBLIC_KEY_Unmarshalu(TPM2B_RAINBOW_PUBLIC_KEY *target, BYTE **buffer, uint32_t *size)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TSS_TPM2B_Unmarshalu(&target->b, sizeof(target->t.buffer), buffer, size);
+	}
+	return rc;
+}
+
+TPM_RC
+TSS_TPM2B_RAINBOW_SECRET_KEY_Unmarshalu(TPM2B_RAINBOW_SECRET_KEY *target, BYTE **buffer, uint32_t *size)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TSS_TPM2B_Unmarshalu(&target->b, sizeof(target->t.buffer), buffer, size);
+	}
+	return rc;
+}
+
+TPM_RC
+TSS_TPM2B_RAINBOW_SIGNED_MESSAGE_Unmarshalu(TPM2B_RAINBOW_SIGNED_MESSAGE *target, BYTE **buffer, uint32_t *size)
+{
+	TPM_RC rc = TPM_RC_SUCCESS;
+
+	if (rc == TPM_RC_SUCCESS) {
+		rc = TSS_TPM2B_Unmarshalu(&target->b, sizeof(target->t.buffer), buffer, size);
+	}
+	return rc;
+}
+
+/*****************************************************************************/
+/*                             Rainbow Mods                                  */
 /*****************************************************************************/
 
 /*****************************************************************************/
