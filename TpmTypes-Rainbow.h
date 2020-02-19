@@ -1299,7 +1299,7 @@ typedef union {
 /* SPHINCS+ Height of the hypertree. */
 #define SPX_FULL_HEIGHT 60
 /* SPHINCS+ Number of subtree layer. */
-#define SPX_D =20
+#define SPX_D 20
 /* SPHINCS+ FORS tree dimensions. */
 #define SPX_FORS_HEIGHT 9
 #define SPX_FORS_TREES 30
@@ -1318,8 +1318,7 @@ typedef union {
 
 /* SPHINCS+ Signature Size */
 /* SPX_BYTES = (16 + 4800 + 20 * 560) + (60 * 16) = 16016 + 960 = 16976 */
-#define SPX_BYTES (SPX_N + SPX_FORS_BYTES + SPX_D * SPX_WOTS_BYTES +\
-                   SPX_FULL_HEIGHT * SPX_N)
+#define SPX_BYTES (SPX_N + SPX_FORS_BYTES + SPX_D * SPX_WOTS_BYTES + SPX_FULL_HEIGHT * SPX_N)
 /* SPHINCS+ Public Key Size */
 #define SPX_PK_BYTES (2 * SPX_N)
 /* SPHINCS+ Secret Key Size */
@@ -1374,9 +1373,9 @@ typedef union {
 /* Rainbow Signature Size */
 #define RBW_BYTES 184
 /* Rainbow Public Key Size */
-#define RBW_PK_BYTES 149
+#define RBW_PK_BYTES 149000
 /* Rainbow Secret Key Size */
-#define RBW_SK_BYTES 93
+#define RBW_SK_BYTES 93000
 /* Rainbow Message Size */
 #define RBW_MLEN_BYTES 3300
 /* Rainbow Signed Message Size */
