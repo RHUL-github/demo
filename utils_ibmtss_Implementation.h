@@ -243,7 +243,7 @@
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
-#define  ALG_SPHINCS_PLUS                  ALG_YES
+#define  ALG_SPHINCS                  ALG_YES
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
@@ -648,10 +648,10 @@
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/
-#define     ALG_SPHINCS_PLUS_VALUE             0x002D
-#if defined ALG_SPHINCS_PLUS && ALG_SPHINCS_PLUS == YES
-#define TPM_ALG_SPHINCS_PLUS                   (TPM_ALG_ID)(ALG_SPHINCS_PLUS_VALUE)
-#endif   // ALG_SPHINCS_PLUS
+#define     ALG_SPHINCS_VALUE             0x0050
+#if defined ALG_SPHINCS && ALG_SPHINCS == YES
+#define TPM_ALG_SPHINCS					(TPM_ALG_ID)(ALG_SPHINCS_VALUE)
+#endif   // ALG_SPHINCS
 /*****************************************************************************/
 /*                             Sphincs+ Mods                                 */
 /*****************************************************************************/

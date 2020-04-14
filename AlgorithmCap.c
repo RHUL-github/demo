@@ -180,8 +180,14 @@ static const ALGORITHM    s_algorithms[] =
 #if ALG_KYBER
 	{TPM_ALG_KYBER,          TPMA_ALGORITHM_INITIALIZER(1, 0, 0, 0, 0, 0, 1, 0, 0)},
 #endif
-#if ALG_SPHINCS_PLUS
-	{TPM_ALG_SPHINCS_PLUS,	TPMA_ALGORITHM_INITIALIZER(1, 0, 0, 0, 0, 1, 0, 0, 0) },
+#if ALG_SPHINCS
+	{TPM_ALG_SPHINCS,		 TPMA_ALGORITHM_INITIALIZER(1, 0, 0, 0, 0, 1, 0, 0, 0) },
+#endif
+#if ALG_RAINBOW
+	{ TPM_ALG_RAINBOW,		 TPMA_ALGORITHM_INITIALIZER(1, 0, 0, 0, 0, 1, 0, 0, 0) },
+#endif
+#if ALG_BIKE
+	{ TPM_ALG_BIKE,          TPMA_ALGORITHM_INITIALIZER(1, 0, 0, 0, 0, 0, 1, 0, 0) },
 #endif
     };
 /* 9.1.3 AlgorithmCapGetImplemented() */
